@@ -9,16 +9,6 @@ insert into passport(seria, number, birth, f_name, l_name, gender, address)
 insert into patient(bank_account_id, auth_id, phone_num, insurance_policy_id, passport_seria, passport_number)
     VALUES (Null, 3, 1234556, 173875, 1234, 567890);
 
-insert into staff(first_name, last_name, auth_id, birthday, position, gender) -- ok
-    VALUES ('Mazarello', 'Cool last name', 1,  '2001-01-16', 'doctor', 'male');
-insert into staff(first_name, last_name, birthday, position, gender) -- ok
-    VALUES ('first name', 'Mazaro', '2001-01-16', 'doctor', 'male');
-insert into staff(first_name, last_name, birthday, position, gender) -- not ok
-    VALUES ('Mazarello', 'M Last name', '2001-01-16', 'doctor', 'male');
-
-insert into staff(first_name, last_name, birthday, position, gender) -- not ok
-    VALUES ('Wrong doctor', 'M Last name', '2001-01-16', 'doctor', 'male');
-
 
 insert into appointment(occurence_date, diagnosis, description, reason_to_create)
     VALUES ('2019-10-03', 'obesity', 'he is too fat', 'make him smaller');
@@ -28,6 +18,17 @@ insert into appointment(occurence_date, diagnosis, description, reason_to_create
     VALUES ('2019-10-03', 'obesity', 'he is too fat', 'make him smaller');
 insert into appointment(occurence_date, diagnosis, description, reason_to_create)
     VALUES ('2019-9-03', 'old obesity', 'he is too fat', 'make him smaller');
+
+
+insert into staff(first_name, last_name, auth_id, birthday, position, gender) -- ok
+    VALUES ('Mazarello', 'Cool last name', 1,  '2001-01-16', 'doctor', 'male');
+insert into staff(first_name, last_name, birthday, position, gender) -- ok
+    VALUES ('First name', 'Lazaro', '2001-01-16', 'doctor', 'male');
+insert into staff(first_name, last_name, birthday, position, gender) -- not ok
+    VALUES ('Lazarello', 'M Last name', '2001-01-16', 'doctor', 'male');
+
+insert into staff(first_name, last_name, birthday, position, gender) -- not ok
+    VALUES ('Wrong doctor', 'M Last name', '2001-01-16', 'doctor', 'male');
 
 
 insert into appointment_patient_doctor_relation(appointment_id, patient_id, doctor_id)
