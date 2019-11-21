@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS staff(
   id int DEFAULT NEXTVAL ('staff_seq'),
   first_name varchar(20),
   last_name varchar(20),
+  room int,
   auth_id int,
   birthday date,
   position staff_position_type,
