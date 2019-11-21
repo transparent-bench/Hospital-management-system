@@ -32,7 +32,6 @@ class Database:
         return rows[len(rows) - limit if limit else 0:]
 
     def write(self, table, columns, data):
-        data = ', '.join(data)
         query = "INSERT INTO {0} ({1}) VALUES ({2});".format(table, columns, data)
         self.cursor.execute(query)
 
