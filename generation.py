@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Dict, Union
+from typing import Dict, Union, Optional
 
 from mimesis import Datetime, Generic, Person
 
@@ -17,6 +17,13 @@ print(p.password(length=10))
 print(p.email())
 print(d.date(start=1900))
 
+db = Database()
+db.open(
+        dbname="hospital_management_system",
+        user="postgres",
+        password="",
+        host="localhost",
+    )
 
 def create_auth() -> Dict[str, str]:
     keys = "login", "password1", "name"
@@ -80,18 +87,15 @@ def create_staff(auth_id, position) -> Dict[str, Union[str, datetime, int]]:
     return dict(zip(keys, values))
 
 
-def create_doctor(auth_id):
+def create_doctor(auth_id: Optional[int] = None):
+    if not auth_id:
+        auth_id = create_auth().get('id')
+
     return create_staff(auth_id, "doctor")
 
 
-with Database() as db:
-    db.open(
-        dbname="hospital_management_system",
-        user="postgres",
-        password="",
-        host="localhost",
-    )
 
+def main():
     for _ in range(100):
         create_auth()
 
@@ -119,3 +123,7 @@ with Database() as db:
                 p.name(), (g.random.randint(0, 180), g.random.randint(0, 180)), staff_id
             ),
         )
+
+
+if __name__ == '__main__':
+    main()
