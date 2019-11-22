@@ -6,6 +6,7 @@ class Database:
         self.conn = None
         self.cursor = None
 
+
     def open(self, dbname, user, password, host):
         self.conn = psycopg2.connect(dbname=dbname,
                                      user=user,
@@ -37,3 +38,5 @@ class Database:
 
     def query(self, sql):
         self.cursor.execute(sql)
+        rows = self.cursor.fetchall()
+        return rows
