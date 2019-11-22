@@ -25,6 +25,7 @@ db.open(
         host="localhost",
     )
 
+
 def create_auth() -> Dict[str, str]:
     keys = "login", "password1", "name"
     values = (
@@ -32,12 +33,15 @@ def create_auth() -> Dict[str, str]:
         g.random.custom_code(mask="@@####@@##"),
         p.name(),
     )
-    db.write("auth", "login, password1, name", "'{}', '{}', '{}'".format(*values))
+    db.write("auth", "login, password1, name", "'{}', '{}', '{}'".format(*values), is_print=True)
+    auth = dict(zip(keys, values))
+    auth['id'] = db.cursor.fetchone()[0]
 
-    return dict(zip(keys, values))
+    return auth
 
 
 def create_passport() -> Dict[str, Union[str, int, datetime]]:
+    # todo: make return id as in create_auth
     passport = {
         "seria": g.random.custom_code(mask="####"),
         "number": g.random.custom_code(mask="######"),
@@ -57,6 +61,7 @@ def create_passport() -> Dict[str, Union[str, int, datetime]]:
 
 
 def create_staff(auth_id, position) -> Dict[str, Union[str, datetime, int]]:
+    # todo: make return id as in create_auth
     gender = g.random.choice(["male", "female"])
 
     keys = (
@@ -94,6 +99,16 @@ def create_doctor(auth_id: Optional[int] = None):
     return create_staff(auth_id, "doctor")
 
 
+def create_patient():
+    auth_id = create_auth().get('id')
+    passport = create_passport()
+    db.write(
+        "patient",
+        "auth_id, passport_seria", "passport_number",
+        "{}, {}, {}".format(
+            auth_id, passport['seria'], passport['number']
+        )
+    )
 
 def main():
     for _ in range(100):
@@ -127,3 +142,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

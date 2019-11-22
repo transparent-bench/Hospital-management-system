@@ -37,6 +37,7 @@ class Database:
         if is_print:
             print(query)
         self.cursor.execute(query)
+        self.conn.commit()
 
     def query(self, sql):
         self.cursor.execute(sql)
