@@ -32,8 +32,10 @@ class Database:
         rows = self.cursor.fetchall()
         return rows[len(rows) - limit if limit else 0:]
 
-    def write(self, table, columns, data):
+    def write(self, table, columns, data, is_print=False):
         query = "INSERT INTO {0} ({1}) VALUES ({2});".format(table, columns, data)
+        if is_print:
+            print(query)
         self.cursor.execute(query)
 
     def query(self, sql):
