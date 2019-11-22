@@ -19,14 +19,13 @@ print(d.date(start=1900))
 
 
 def create_auth() -> Dict[str, str]:
-    login, password1, name = p.email(), g.random.custom_code(mask='@@####@@##'), p.name()
+    keys = 'login', 'password1', 'name'
+    values = p.email(), g.random.custom_code(mask='@@####@@##'), p.name(),
     db.write('auth',
              'login, password1, name',
-             "'{}', '{}', '{}'".format(login, password1, name))
+             "'{}', '{}', '{}'".format(*values))
 
-    return {
-        "login": login, "password1": password1, "name": name
-    }
+    return dict(zip(keys, values))
 
 
 def create_passport() -> Dict[str, Union[str, int, datetime]]:
@@ -46,12 +45,11 @@ def create_passport() -> Dict[str, Union[str, int, datetime]]:
     return passport
 
 
-def create_staff(auth_id, position, gender):
+def create_staff(auth_id, position) -> Dict[str, Union[str, datetime, int]]:
+    gender = g.random.choice(['male', 'female'])
+
     keys = ('first_name', 'last_name', 'room', 'auth_id', 'birthday', 'position', 'gender')
-    values = (p.name(),
-              p.surname(),
-               g.random.randint(1, 100),
-               auth_id,
+    values = (p.name(), p.surname(), g.random.randint(1, 100), auth_id,
                d.date(start=1900),
                position,
                gender)
@@ -61,6 +59,11 @@ def create_staff(auth_id, position, gender):
              "'{}', '{}', {}, {}, '{}', '{}', '{}'".format(*values))
 
     return dict(zip(keys, values))
+
+
+def create_doctor(auth_id):
+    return create_staff(auth_id, 'doctor')
+
 
 with Database() as db:
     db.open(dbname='hospital_management_system',
@@ -79,8 +82,7 @@ with Database() as db:
         auth_id = g.random.choice(auth_ids)
         auth_ids.remove(auth_id)
         position = g.random.choice(['doctor', 'administrator', 'nurse', 'security', 'IT-administrator'])
-        gender = g.random.choice(['male', 'female'])
-        create_staff(auth_id, position, gender)
+        create_staff(auth_id, position)
 
 
     query = "select id from staff s where s.position = 'security'"
