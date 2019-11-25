@@ -94,7 +94,7 @@ def create_staff(position: Union[str, StaffPositionEnum], auth_id: Optional[int]
     return staff
 
 
-def create_staff_with_random_position():
+def create_staff_with_random_position() -> dict:
     return create_staff(g.random.choice(list(StaffPositionEnum)).name)
 
 
@@ -133,7 +133,7 @@ def create_complain() -> Dict[str, Union[str, datetime, int]]:
     return complain
 
 
-def create_notification() -> Dict[str, Union[str]]:
+def create_notification() -> Dict[str, str]:
     notification = {
         "notification_text": t.word(),
         "notification_status": g.random.choice(list(NotificationStatusEnum)).name,
@@ -148,11 +148,11 @@ def create_notification() -> Dict[str, Union[str]]:
     return notification
 
 
-def create_doctor(auth_id: Optional[int] = None):
+def create_doctor(auth_id: Optional[int] = None) -> dict:
     return create_staff(StaffPositionEnum.doctor, auth_id)
 
 
-def create_patient():
+def create_patient() -> dict:
     auth = create_auth()
     passport = create_passport()
 
@@ -175,7 +175,7 @@ def create_patient():
     return patient
 
 
-def create_ticket():
+def create_ticket() -> dict:
     creation_date = d.date()
     closing_date = creation_date + timedelta(days=g.random.randint(2, 7))
 
@@ -199,7 +199,7 @@ class TicketStatusEnum(Enum):
     closed = auto()
 
 
-def create_staff_ticket_relation():
+def create_staff_ticket_relation() -> dict:
     ticket = create_ticket()
     staff = create_staff_with_random_position()
     ticket_status = g.random.choice(list(TicketStatusEnum)).name
