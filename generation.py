@@ -60,6 +60,11 @@ class StaffPositionEnum(Enum):
     IT_administrator = auto()
 
 
+class NotificationStatusEnum(Enum):
+    open = auto()
+    closed = auto()
+
+
 def create_staff(position: Union[str, StaffPositionEnum], auth_id: Optional[int] = None) -> Dict[str, Union[str, datetime, int]]:
     if not auth_id:
         auth_id = create_auth()['id']
@@ -103,7 +108,7 @@ def create_camera(staff_id: Optional[int] = None) -> Dict[str, Union[str, Tuple[
         "staff_id": staff_id,
     }
 
-    db.write(
+    camera["id"] = db.write(
         "camera",
         ", ".join(camera.keys()),
         "'{}', '{}', {}".format(*camera.values()),
@@ -119,13 +124,28 @@ def create_complain() -> Dict[str, Union[str, datetime, int]]:
         "complain_text": t.word(),
     }
 
-    db.write(
+    complain["id"] = db.write(
         "complain",
         ", ".join(complain.keys()),
         "'{}', '{}', '{}'".format(*complain.values()),
     )
 
     return complain
+
+
+def create_notification() -> Dict[str, Union[str]]:
+    notification = {
+        "notification_text": t.word(),
+        "notification_status": g.random.choice(list(NotificationStatusEnum)).name,
+    }
+
+    notification["id"] = db.write(
+        "notification",
+        ", ".join(notification.keys()),
+        "'{}', '{}'".format(*notification.values()),
+    )
+
+    return notification
 
 
 def create_doctor(auth_id: Optional[int] = None):
@@ -199,7 +219,7 @@ def create_staff_ticket_relation():
 
 def main():
     for _ in range(10):
-        create_complain()
+        create_notification()
     pass
 
 
