@@ -20,8 +20,8 @@ db.open(
 )
 
 
-def get_text(lenght: int = 10) -> str:
-    return t.text(lenght).replace("'", "")[:lenght]
+def get_text(length: int = 10) -> str:
+    return t.text(length).replace("'", "")[:length]
 
 
 def create_auth() -> Dict[str, str]:
