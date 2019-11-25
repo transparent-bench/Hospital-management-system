@@ -19,8 +19,9 @@ db.open(
         host="localhost",
 )
 
-def get_text():
-    pass
+
+def get_text(lenght: int = 10) -> str:
+    return t.text(lenght).replace("'", "")[:lenght]
 
 
 def create_auth() -> Dict[str, str]:
@@ -97,7 +98,7 @@ def create_staff(position: Union[str, StaffPositionEnum], auth_id: Optional[int]
     return staff
 
 
-def create_staff_with_random_position():
+def create_staff_with_random_position() -> dict:
     return create_staff(g.random.choice(list(StaffPositionEnum)).name)
 
 
@@ -122,9 +123,9 @@ def create_camera(staff_id: Optional[int] = None) -> Dict[str, Union[str, Tuple[
 
 def create_complain() -> Dict[str, Union[str, datetime, int]]:
     complain = {
-        "theme": t.word(),
+        "theme": get_text(),
         "creation_date": d.date(),
-        "complain_text": t.word(),
+        "complain_text": get_text(),
     }
 
     complain["id"] = db.write(
@@ -136,9 +137,9 @@ def create_complain() -> Dict[str, Union[str, datetime, int]]:
     return complain
 
 
-def create_notification() -> Dict[str, Union[str]]:
+def create_notification() -> Dict[str, str]:
     notification = {
-        "notification_text": t.word(),
+        "notification_text": get_text(),
         "notification_status": g.random.choice(list(NotificationStatusEnum)).name,
     }
 
@@ -151,11 +152,11 @@ def create_notification() -> Dict[str, Union[str]]:
     return notification
 
 
-def create_doctor(auth_id: Optional[int] = None):
+def create_doctor(auth_id: Optional[int] = None) -> dict:
     return create_staff(StaffPositionEnum.doctor, auth_id)
 
 
-def create_patient():
+def create_patient() -> dict:
     auth = create_auth()
     passport = create_passport()
 
@@ -178,14 +179,14 @@ def create_patient():
     return patient
 
 
-def create_ticket():
+def create_ticket() -> dict:
     creation_date = d.date()
     closing_date = creation_date + timedelta(days=g.random.randint(2, 7))
 
     ticket = {
         "creation_date": creation_date.isoformat(),
         "closing_date": closing_date.isoformat(),
-        "ticket_text": t.sentence(),
+        "ticket_text": get_text(),
     }
 
     ticket['id'] = db.write(
@@ -201,7 +202,7 @@ def create_invoice():
     invoice = {
         "amount": g.random.randint(0, 100000),
         "date_of_creation": d.date(),
-        "reason": t.sentence(),
+        "reason": get_text(),
     }
 
     invoice['id'] = db.write(
@@ -218,7 +219,7 @@ class TicketStatusEnum(Enum):
     closed = auto()
 
 
-def create_staff_ticket_relation():
+def create_staff_ticket_relation() -> dict:
     ticket = create_ticket()
     staff = create_staff_with_random_position()
     ticket_status = g.random.choice(list(TicketStatusEnum)).name
@@ -236,6 +237,20 @@ def create_staff_ticket_relation():
     return relation
 
 
+def create_patient_ticket_relation() -> dict:
+    patient = create_patient()
+    ticket = create_ticket()
+    relation = {
+        "patient_id": patient['id'],
+        "ticket_id": ticket['id']
+    }
+    relation['id'] = db.write(
+        "patient_ticket_relation",
+        ", ".join(relation.keys()),
+        "{}, {}".format(*relation.values())
+    )
+
+    return relation
 
 
 def main():
