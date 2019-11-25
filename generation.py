@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from enum import Enum, auto
 from typing import Dict, Union, Optional, Tuple
 
@@ -36,7 +36,7 @@ def create_passport() -> Dict[str, Union[str, int, datetime]]:
     passport = {
         "seria": g.random.custom_code(mask="####"),
         "number": g.random.custom_code(mask="######"),
-        "birth": d.date(start=1900),
+        "birth": d.date(start=1950),
         "f_name": p.name(),
         "l_name": p.surname(),
         "gender": p.random.choice(["male", "female"]),
@@ -75,7 +75,7 @@ def create_staff(position: Union[str, StaffPositionEnum], auth_id: Optional[int]
         "last_name": p.surname(),
         "room": g.random.randint(1, 100),
         "auth_id": auth_id,
-        "birthday": d.date(start=1900),
+        "birthday": d.date(start=1950),
         "position": position,
         "gender": gender,
     }
@@ -111,7 +111,7 @@ def create_camera(staff_id: Optional[int] = None) -> Dict[str, Union[str, Tuple[
 def create_complain() -> Dict[str, Union[str, datetime, int]]:
     complain = {
         "theme": t.word(),
-        "creation_date": d.date(start=1900),
+        "creation_date": d.date(),
         "complain_text": t.word(),
     }
 
@@ -150,6 +150,24 @@ def create_patient():
     )
     return patient
 
+
+def create_ticket():
+    creation_date = d.date()
+    closing_date = creation_date + timedelta(days=g.random.randint(2, 7))
+
+    ticket = {
+        "ticket_text": t.sentence(),
+        "creation_date": creation_date.isoformat(),
+        "closing_date": closing_date.isoformat()
+    }
+
+    ticket['id'] = db.write(
+        "ticket",
+        ", ".join(ticket.keys()),
+        "'{}', '{}', '{}'".format(*ticket.values())
+    )
+
+    return ticket
 
 
 def main():
