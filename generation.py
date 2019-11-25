@@ -156,6 +156,10 @@ def create_doctor(auth_id: Optional[int] = None) -> dict:
     return create_staff(StaffPositionEnum.doctor, auth_id)
 
 
+def create_nurse(auth_id: Optional[int] = None) -> dict:
+    return create_staff(StaffPositionEnum.nurse, auth_id)
+
+
 def create_patient() -> dict:
     auth = create_auth()
     passport = create_passport()
@@ -198,7 +202,7 @@ def create_ticket() -> dict:
     return ticket
 
 
-def create_invoice():
+def create_invoice() -> dict:
     invoice = {
         "amount": g.random.randint(0, 100000),
         "date_of_creation": d.date(),
@@ -268,9 +272,26 @@ def create_patient_complain_relation() -> dict:
 
     return relation
 
+
+def create_doctor_nurse_relation() -> dict:
+    doctor = create_doctor()
+    nurse = create_nurse()
+    relation = {
+        "doctor_id": doctor['id'],
+        "nurse_id": nurse['id']
+    }
+    relation['id'] = db.write(
+        "doctor_nurse_relation",
+        ", ".join(relation.keys()),
+        "{}, {}".format(*relation.values())
+    )
+
+    return relation
+
+
 def main():
     for _ in range(10):
-        create_invoice()
+        create_doctor_nurse_relation()
     pass
 
 
