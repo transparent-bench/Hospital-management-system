@@ -198,7 +198,7 @@ def create_ticket() -> dict:
     return ticket
 
 
-def create_invoice():
+def create_invoice() -> dict:
     invoice = {
         "amount": g.random.randint(0, 100000),
         "date_of_creation": d.date(),
@@ -214,7 +214,7 @@ def create_invoice():
     return invoice
 
 
-def create_appointment():
+def create_appointment() -> dict:
     appointment = {
         "occurrence_date": d.date(),
         "diagnosis": get_text(10),
@@ -293,5 +293,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    print(create_appointment())
 
