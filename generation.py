@@ -32,7 +32,7 @@ def create_auth() -> Dict[str, str]:
         "password1": g.random.custom_code(mask="@@####@@##"),
         "name": p.name()
     }
-    auth['id'] = db.write("auth", "login, password1, name", "'{}', '{}', '{}'".format(*auth.values()), is_print=True)
+    auth['id'] = db.write("auth", ", ".join(auth.keys()), "'{}', '{}', '{}'".format(*auth.values()), is_print=True)
 
     return auth
 
@@ -50,7 +50,7 @@ def create_passport() -> Dict[str, Union[str, int, datetime]]:
     }
     db.write(
         "passport",
-        "seria, number, birth, f_name, l_name, gender, address",
+        ", ".join(passport.keys()),
         "{}, {}, '{}', '{}', '{}', '{}', '{}'".format(*passport.values()),
     )
 
@@ -64,32 +64,23 @@ def create_staff(position, auth_id: Optional[int]) -> Dict[str, Union[str, datet
     # todo: make return id as in create_auth
     gender = g.random.choice(["male", "female"])
 
-    keys = (
-        "first_name",
-        "last_name",
-        "room",
-        "auth_id",
-        "birthday",
-        "position",
-        "gender",
-    )
-    values = (
-        p.name(),
-        p.surname(),
-        g.random.randint(1, 100),
-        auth_id,
-        d.date(start=1900),
-        position,
-        gender,
-    )
+    staff = {
+        "first_name": p.name(),
+        "last_name": p.surname(),
+        "room": g.random.randint(1, 100),
+        "auth_id": auth_id,
+        "birthday": d.date(start=1900),
+        "position": position,
+        "gender": gender,
+    }
 
     db.write(
         "staff",
-        "first_name, last_name, room, auth_id, birthday, position, gender",
-        "'{}', '{}', {}, {}, '{}', '{}', '{}'".format(*values),
+        ", ".join(staff.keys()),
+        "'{}', '{}', {}, {}, '{}', '{}', '{}'".format(*staff.values()),
     )
 
-    return dict(zip(keys, values))
+    return staff
 
 
 def create_doctor(auth_id: Optional[int] = None):
