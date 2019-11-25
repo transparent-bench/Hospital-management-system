@@ -161,10 +161,9 @@ CREATE SEQUENCE IF NOT EXISTS staff_ticket_relation_seq;
 CREATE TABLE staff_ticket_relation(
   id int DEFAULT NEXTVAL ('staff_ticket_relation_seq'),
   staff_id int,
-  patient_id int,
   ticket_id int,
   ticket_status ticket_status_type,
-  FOREIGN KEY (patient_id) REFERENCES patient(id),
+  FOREIGN KEY (staff_id) REFERENCES staff(id),
   FOREIGN KEY (ticket_id) REFERENCES ticket(id),
   PRIMARY KEY (id)
 );

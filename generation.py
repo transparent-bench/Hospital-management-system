@@ -89,6 +89,10 @@ def create_staff(position: Union[str, StaffPositionEnum], auth_id: Optional[int]
     return staff
 
 
+def create_staff_with_random_position():
+    return create_staff(g.random.choice(list(StaffPositionEnum)).name)
+
+
 def create_camera(staff_id: Optional[int] = None) -> Dict[str, Union[str, Tuple[int, int], int]]:
     if not staff_id:
         staff_id = create_staff(StaffPositionEnum.security)['id']
@@ -156,9 +160,9 @@ def create_ticket():
     closing_date = creation_date + timedelta(days=g.random.randint(2, 7))
 
     ticket = {
-        "ticket_text": t.sentence(),
         "creation_date": creation_date.isoformat(),
-        "closing_date": closing_date.isoformat()
+        "closing_date": closing_date.isoformat(),
+        "ticket_text": t.sentence(),
     }
 
     ticket['id'] = db.write(
@@ -168,6 +172,29 @@ def create_ticket():
     )
 
     return ticket
+
+
+class TicketStatusEnum(Enum):
+    open = auto()
+    closed = auto()
+
+
+def create_staff_ticket_relation():
+    ticket = create_ticket()
+    staff = create_staff_with_random_position()
+    ticket_status = g.random.choice(list(TicketStatusEnum)).name
+
+    relation = {
+        "staff_id": staff['id'],
+        "ticket_id": ticket['id'],
+        "ticket_status": ticket_status
+    }
+    relation['id'] = db.write(
+        "staff_ticket_relation",
+        ", ".join(relation.keys()),
+        "{}, {}, '{}'".format(*relation.values())
+    )
+    return relation
 
 
 def main():
