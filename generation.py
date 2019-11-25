@@ -340,7 +340,7 @@ def create_doctor_nurse_relation(is_print: bool = False) -> dict:
     return relation
 
 
-def create_notification_patient_relation() -> dict:
+def create_notification_patient_relation(is_print: bool = False) -> dict:
     notification = create_notification()
     patient = create_patient()
     relation = {
@@ -350,13 +350,14 @@ def create_notification_patient_relation() -> dict:
     relation['id'] = db.write(
         "notification_patient_relation",
         ", ".join(relation.keys()),
-        "{}, {}".format(*relation.values())
+        "{}, {}".format(*relation.values()),
+        is_print=is_print
     )
 
     return relation
 
 
-def create_notification_staff_relation() -> dict:
+def create_notification_staff_relation(is_print: bool = False) -> dict:
     notification = create_notification()
     staff = create_staff_with_random_position()
     relation = {
@@ -366,13 +367,14 @@ def create_notification_staff_relation() -> dict:
     relation['id'] = db.write(
         "notification_staff_relation",
         ", ".join(relation.keys()),
-        "{}, {}".format(*relation.values())
+        "{}, {}".format(*relation.values()),
+        is_print=is_print
     )
 
     return relation
 
 
-def create_patient_invoice_staff_relation() -> dict:
+def create_patient_invoice_staff_relation(is_print: bool = False) -> dict:
     patient = create_patient()
     invoice = create_invoice()
     administrator = create_staff(StaffPositionEnum.administrator)
