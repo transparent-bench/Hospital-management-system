@@ -1,6 +1,7 @@
 from datetime import datetime
 from enum import Enum, auto
-from typing import Dict, Union, Optional
+from typing import Dict, Union, Optional, Tuple
+
 
 from mimesis import Datetime, Generic, Person
 
@@ -10,21 +11,13 @@ p = Person("en")
 g = Generic("en")
 d = Datetime()
 
-print(g.random.custom_code(mask="####"))
-print(g.random.custom_code(mask="######"))
-print(p.name())
-print(p.last_name())
-print(p.password(length=10))
-print(p.email())
-print(d.date(start=1900))
-
 db = Database()
 db.open(
         dbname="hospital_management_system",
         user="postgres",
         password="",
         host="localhost",
-    )
+)
 
 
 def create_auth() -> Dict[str, str]:
@@ -87,13 +80,32 @@ def create_staff(position: Union[str, StaffPositionEnum], auth_id: Optional[int]
         "gender": gender,
     }
 
-    db.write(
+    staff["id"] = db.write(
         "staff",
         ", ".join(staff.keys()),
         "'{}', '{}', {}, {}, '{}', '{}', '{}'".format(*staff.values()),
     )
 
     return staff
+
+
+def create_camera(staff_id: Optional[int] = None) -> Dict[str, Union[str, Tuple[int, int], int]]:
+    if not staff_id:
+        staff_id = create_staff(StaffPositionEnum.security)['id']
+
+    camera = {
+        "name": p.name(),
+        "location": (g.random.randint(0, 180), g.random.randint(0, 180)),
+        "staff_id": staff_id,
+    }
+
+    db.write(
+        "camera",
+        ", ".join(camera.keys()),
+        "'{}', '{}', {}".format(*camera.values()),
+    )
+
+    return camera
 
 
 def create_doctor(auth_id: Optional[int] = None):
@@ -111,34 +123,9 @@ def create_patient():
         )
     )
 
+
 def main():
-    for _ in range(100):
-        create_auth()
-
-    for _ in range(100):
-        create_passport()
-
-    auth_ids = [auth_id for auth_id, in db.get("auth", "id")]
-    for _ in range(100):
-        auth_id = g.random.choice(auth_ids)
-        auth_ids.remove(auth_id)
-        position = g.random.choice(
-            ["doctor", "administrator", "nurse", "security", "IT-administrator"]
-        )
-        create_staff(auth_id, position)
-
-    query = "select id from staff s where s.position = 'security'"
-    staff_ids = [staff_id for staff_id, in db.query(query)]
-    for _ in range(100):
-        staff_id = g.random.choice(staff_ids)
-        staff_ids.remove(staff_id)
-        db.write(
-            "camera",
-            "name, location, staff_id",
-            "'{}', '{}', {}".format(
-                p.name(), (g.random.randint(0, 180), g.random.randint(0, 180)), staff_id
-            ),
-        )
+    pass
 
 
 if __name__ == '__main__':
