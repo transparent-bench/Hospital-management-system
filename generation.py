@@ -20,7 +20,7 @@ db.open(
 )
 
 
-def get_text(length: int = 10) -> str:
+def get_text(length: int = 25) -> str:
     return t.text(length).replace("'", "")[:length]
 
 
