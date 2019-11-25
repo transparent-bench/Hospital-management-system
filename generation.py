@@ -13,10 +13,7 @@ d = Datetime()
 
 db = Database()
 db.open(
-        dbname="hospital_management_system",
-        user="postgres",
-        password="",
-        host="localhost",
+    dbname="hospital_management_system", user="postgres", password="", host="localhost",
 )
 
 
@@ -28,10 +25,15 @@ def create_auth(is_print: bool = False) -> Dict[str, str]:
     auth = {
         "login": p.email(),
         "password1": g.random.custom_code(mask="@@####@@##"),
-        "name": p.name()
+        "name": p.name(),
     }
 
-    auth['id'] = db.write("auth", ", ".join(auth.keys()), "'{}', '{}', '{}'".format(*auth.values()), is_print=is_print)
+    auth["id"] = db.write(
+        "auth",
+        ", ".join(auth.keys()),
+        "'{}', '{}', '{}'".format(*auth.values()),
+        is_print=is_print,
+    )
 
     return auth
 
@@ -50,7 +52,7 @@ def create_passport(is_print: bool = False) -> Dict[str, Union[str, int, datetim
         "passport",
         ", ".join(passport.keys()),
         "{}, {}, '{}', '{}', '{}', '{}', '{}'".format(*passport.values()),
-        pk='seria, number',
+        pk="seria, number",
         is_print=is_print,
     )
 
@@ -70,9 +72,13 @@ class NotificationStatusEnum(Enum):
     closed = auto()
 
 
-def create_staff(position: Union[str, StaffPositionEnum], auth_id: Optional[int] = None, is_print: bool = False) -> Dict[str, Union[str, datetime, int]]:
+def create_staff(
+    position: Union[str, StaffPositionEnum],
+    auth_id: Optional[int] = None,
+    is_print: bool = False,
+) -> Dict[str, Union[str, datetime, int]]:
     if not auth_id:
-        auth_id = create_auth()['id']
+        auth_id = create_auth()["id"]
 
     if isinstance(position, StaffPositionEnum):
         position = position.name
@@ -104,9 +110,11 @@ def create_staff_with_random_position() -> dict:
     return create_staff(g.random.choice(list(StaffPositionEnum)).name)
 
 
-def create_camera(staff_id: Optional[int] = None, is_print: bool = False) -> Dict[str, Union[str, Tuple[int, int], int]]:
+def create_camera(
+    staff_id: Optional[int] = None, is_print: bool = False
+) -> Dict[str, Union[str, Tuple[int, int], int]]:
     if not staff_id:
-        staff_id = create_staff(StaffPositionEnum.security)['id']
+        staff_id = create_staff(StaffPositionEnum.security)["id"]
 
     camera = {
         "name": p.name(),
@@ -170,7 +178,7 @@ def create_patient(is_print: bool = False) -> dict:
     passport = create_passport()
 
     patient = {
-        "auth_id": auth.get('id'),
+        "auth_id": auth.get("id"),
         "bank_account_id": p.random.custom_code("######"),
         "insurance_policy_id": p.random.custom_code("#####"),
         "passport_seria": passport.get("seria"),
@@ -178,13 +186,11 @@ def create_patient(is_print: bool = False) -> dict:
         "phone_num": p.random.custom_code("+###########"),
     }
 
-    patient['id'] = db.write(
+    patient["id"] = db.write(
         "patient",
         ", ".join(patient.keys()),
-        "{}, {}, {}, {}, {}, '{}'".format(
-            *patient.values()
-        ),
-        is_print=is_print
+        "{}, {}, {}, {}, {}, '{}'".format(*patient.values()),
+        is_print=is_print,
     )
     return patient
 
@@ -199,11 +205,11 @@ def create_ticket(is_print: bool = False) -> dict:
         "ticket_text": get_text(),
     }
 
-    ticket['id'] = db.write(
+    ticket["id"] = db.write(
         "ticket",
         ", ".join(ticket.keys()),
         "'{}', '{}', '{}'".format(*ticket.values()),
-        is_print=is_print
+        is_print=is_print,
     )
 
     return ticket
@@ -216,11 +222,11 @@ def create_invoice(is_print: bool = False) -> dict:
         "reason": get_text(),
     }
 
-    invoice['id'] = db.write(
+    invoice["id"] = db.write(
         "invoice",
         ", ".join(invoice.keys()),
         "'{}', '{}', '{}'".format(*invoice.values()),
-        is_print=is_print
+        is_print=is_print,
     )
 
     return invoice
@@ -231,14 +237,14 @@ def create_appointment(is_print: bool = False) -> dict:
         "occurrence_date": d.date(),
         "diagnosis": get_text(10),
         "description": get_text(),
-        "reason_to_create": get_text(10)
+        "reason_to_create": get_text(10),
     }
 
-    appointment['id'] = db.write(
+    appointment["id"] = db.write(
         "appointment",
         ", ".join(appointment.keys()),
         "'{}', '{}', '{}', '{}'".format(*appointment.values()),
-        is_print=is_print
+        is_print=is_print,
     )
 
     return appointment
@@ -255,15 +261,15 @@ def create_staff_ticket_relation(is_print: bool = False) -> dict:
     ticket_status = g.random.choice(list(TicketStatusEnum)).name
 
     relation = {
-        "staff_id": staff['id'],
-        "ticket_id": ticket['id'],
-        "ticket_status": ticket_status
+        "staff_id": staff["id"],
+        "ticket_id": ticket["id"],
+        "ticket_status": ticket_status,
     }
-    relation['id'] = db.write(
+    relation["id"] = db.write(
         "staff_ticket_relation",
         ", ".join(relation.keys()),
         "{}, {}, '{}'".format(*relation.values()),
-        is_print=is_print
+        is_print=is_print,
     )
     return relation
 
@@ -271,15 +277,12 @@ def create_staff_ticket_relation(is_print: bool = False) -> dict:
 def create_patient_ticket_relation(is_print: bool = False) -> dict:
     patient = create_patient()
     ticket = create_ticket()
-    relation = {
-        "patient_id": patient['id'],
-        "ticket_id": ticket['id']
-    }
-    relation['id'] = db.write(
+    relation = {"patient_id": patient["id"], "ticket_id": ticket["id"]}
+    relation["id"] = db.write(
         "patient_ticket_relation",
         ", ".join(relation.keys()),
         "{}, {}".format(*relation.values()),
-        is_print=is_print
+        is_print=is_print,
     )
 
     return relation
@@ -288,15 +291,12 @@ def create_patient_ticket_relation(is_print: bool = False) -> dict:
 def create_patient_complain_relation(is_print: bool = False) -> dict:
     patient = create_patient()
     complain = create_complain()
-    relation = {
-        "patient_id": patient['id'],
-        "complain_id": complain['id']
-    }
-    relation['id'] = db.write(
+    relation = {"patient_id": patient["id"], "complain_id": complain["id"]}
+    relation["id"] = db.write(
         "patient_complain_relation",
         ", ".join(relation.keys()),
         "{}, {}".format(*relation.values()),
-        is_print=is_print
+        is_print=is_print,
     )
 
     return relation
@@ -308,16 +308,16 @@ def create_appointment_patient_doctor_relation(is_print: bool = False) -> dict:
     appointment = create_appointment()
 
     relation = {
-        "appointment_id": appointment['id'],
-        "patient_id": patient['id'],
-        "doctor_id": doctor['id']
+        "appointment_id": appointment["id"],
+        "patient_id": patient["id"],
+        "doctor_id": doctor["id"],
     }
 
-    relation['id'] = db.write(
+    relation["id"] = db.write(
         "appointment_patient_doctor_relation",
         ", ".join(relation.keys()),
         "{}, {}, {}".format(*relation.values()),
-        is_print=is_print
+        is_print=is_print,
     )
 
     return relation
@@ -326,15 +326,12 @@ def create_appointment_patient_doctor_relation(is_print: bool = False) -> dict:
 def create_doctor_nurse_relation(is_print: bool = False) -> dict:
     doctor = create_doctor()
     nurse = create_nurse()
-    relation = {
-        "doctor_id": doctor['id'],
-        "nurse_id": nurse['id']
-    }
-    relation['id'] = db.write(
+    relation = {"doctor_id": doctor["id"], "nurse_id": nurse["id"]}
+    relation["id"] = db.write(
         "doctor_nurse_relation",
         ", ".join(relation.keys()),
         "{}, {}".format(*relation.values()),
-        is_print=is_print
+        is_print=is_print,
     )
 
     return relation
@@ -343,15 +340,12 @@ def create_doctor_nurse_relation(is_print: bool = False) -> dict:
 def create_notification_patient_relation(is_print: bool = False) -> dict:
     notification = create_notification()
     patient = create_patient()
-    relation = {
-        "notification_id": notification['id'],
-        "patient_id": patient['id']
-    }
-    relation['id'] = db.write(
+    relation = {"notification_id": notification["id"], "patient_id": patient["id"]}
+    relation["id"] = db.write(
         "notification_patient_relation",
         ", ".join(relation.keys()),
         "{}, {}".format(*relation.values()),
-        is_print=is_print
+        is_print=is_print,
     )
 
     return relation
@@ -360,15 +354,12 @@ def create_notification_patient_relation(is_print: bool = False) -> dict:
 def create_notification_staff_relation(is_print: bool = False) -> dict:
     notification = create_notification()
     staff = create_staff_with_random_position()
-    relation = {
-        "notification_id": notification['id'],
-        "staff_id": staff['id']
-    }
-    relation['id'] = db.write(
+    relation = {"notification_id": notification["id"], "staff_id": staff["id"]}
+    relation["id"] = db.write(
         "notification_staff_relation",
         ", ".join(relation.keys()),
         "{}, {}".format(*relation.values()),
-        is_print=is_print
+        is_print=is_print,
     )
 
     return relation
@@ -380,16 +371,16 @@ def create_patient_invoice_staff_relation(is_print: bool = False) -> dict:
     administrator = create_staff(StaffPositionEnum.administrator)
 
     relation = {
-        "staff_id": administrator['id'],
-        "patient_id": patient['id'],
-        "invoice_id": invoice['id']
+        "staff_id": administrator["id"],
+        "patient_id": patient["id"],
+        "invoice_id": invoice["id"],
     }
 
-    relation['id'] = db.write(
+    relation["id"] = db.write(
         "patient_invoice_staff_relation",
         ", ".join(relation.keys()),
         "{}, {}, {}".format(*relation.values()),
-        is_print=is_print
+        is_print=is_print,
     )
 
     return relation
@@ -401,6 +392,5 @@ def main():
     pass
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
-

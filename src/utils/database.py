@@ -6,12 +6,10 @@ class Database:
         self.conn = None
         self.cursor = None
 
-
     def open(self, dbname, user, password, host):
-        self.conn = psycopg2.connect(dbname=dbname,
-                                     user=user,
-                                     password=password,
-                                     host=host)
+        self.conn = psycopg2.connect(
+            dbname=dbname, user=user, password=password, host=host
+        )
         self.cursor = self.conn.cursor()
 
     def close(self):
@@ -30,13 +28,15 @@ class Database:
         query = "SELECT {0} from {1};".format(columns, table)
         self.cursor.execute(query)
         rows = self.cursor.fetchall()
-        return rows[len(rows) - limit if limit else 0:]
+        return rows[len(rows) - limit if limit else 0 :]
 
-    def write(self, table, columns, data, pk='id', is_print: bool = False):
+    def write(self, table, columns, data, pk="id", is_print: bool = False):
         """
         :return: pk of just inserted row
         """
-        query = "INSERT INTO {0} ({1}) VALUES ({2}) RETURNING {3};".format(table, columns, data, pk)
+        query = "INSERT INTO {0} ({1}) VALUES ({2}) RETURNING {3};".format(
+            table, columns, data, pk
+        )
         self.cursor.execute(query)
         self.conn.commit()
         id_of_new_row = self.cursor.fetchone()[0]
