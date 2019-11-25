@@ -33,11 +33,15 @@ class Database:
         return rows[len(rows) - limit if limit else 0:]
 
     def write(self, table, columns, data, is_print=False):
-        query = "INSERT INTO {0} ({1}) VALUES ({2});".format(table, columns, data)
+        """
+        :return: id of just inserted row
+        """
+        query = "INSERT INTO {0} ({1}) VALUES ({2}) RETURNING id;".format(table, columns, data)
         if is_print:
             print(query)
         self.cursor.execute(query)
         self.conn.commit()
+        return self.cursor.fetchone()[0]
 
     def query(self, sql):
         self.cursor.execute(sql)

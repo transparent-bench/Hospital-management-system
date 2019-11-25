@@ -33,9 +33,8 @@ def create_auth() -> Dict[str, str]:
         g.random.custom_code(mask="@@####@@##"),
         p.name(),
     )
-    db.write("auth", "login, password1, name", "'{}', '{}', '{}'".format(*values), is_print=True)
     auth = dict(zip(keys, values))
-    auth['id'] = db.cursor.fetchone()[0]
+    auth['id'] = db.write("auth", "login, password1, name", "'{}', '{}', '{}'".format(*values), is_print=True)
 
     return auth
 
