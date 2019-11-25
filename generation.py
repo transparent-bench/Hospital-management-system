@@ -310,7 +310,6 @@ def create_appointment_patient_doctor_relation() -> dict:
     return relation
 
 
-
 def create_doctor_nurse_relation() -> dict:
     doctor = create_doctor()
     nurse = create_nurse()
@@ -322,6 +321,26 @@ def create_doctor_nurse_relation() -> dict:
         "doctor_nurse_relation",
         ", ".join(relation.keys()),
         "{}, {}".format(*relation.values())
+    )
+
+    return relation
+
+
+def create_patient_invoice_staff_relation() -> dict:
+    patient = create_patient()
+    invoice = create_invoice()
+    administrator = create_staff(StaffPositionEnum.administrator)
+
+    relation = {
+        "staff_id": administrator['id'],
+        "patient_id": patient['id'],
+        "invoice_id": invoice['id']
+    }
+
+    relation['id'] = db.write(
+        "patient_invoice_staff_relation",
+        ", ".join(relation.keys()),
+        "{}, {}, {}".format(*relation.values())
     )
 
     return relation
