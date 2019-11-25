@@ -2,13 +2,13 @@ from datetime import datetime
 from enum import Enum, auto
 from typing import Dict, Union, Optional, Tuple
 
-
-from mimesis import Datetime, Generic, Person
+from mimesis import Datetime, Generic, Person, Text
 
 from src.utils.database import Database
 
 p = Person("en")
 g = Generic("en")
+t = Text("en")
 d = Datetime()
 
 db = Database()
@@ -108,6 +108,22 @@ def create_camera(staff_id: Optional[int] = None) -> Dict[str, Union[str, Tuple[
     return camera
 
 
+def create_complain() -> Dict[str, Union[str, datetime, int]]:
+    complain = {
+        "theme": t.word(),
+        "creation_date": d.date(start=1900),
+        "complain_text": t.word(),
+    }
+
+    db.write(
+        "complain",
+        ", ".join(complain.keys()),
+        "'{}', '{}', '{}'".format(*complain.values()),
+    )
+
+    return complain
+
+
 def create_doctor(auth_id: Optional[int] = None):
     return create_staff(StaffPositionEnum.doctor, auth_id)
 
@@ -137,6 +153,8 @@ def create_patient():
 
 
 def main():
+    for _ in range(10):
+        create_complain()
     pass
 
 
