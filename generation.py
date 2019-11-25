@@ -214,6 +214,23 @@ def create_invoice():
     return invoice
 
 
+def create_appointment():
+    appointment = {
+        "occurrence_date": d.date(),
+        "diagnosis": get_text(10),
+        "description": get_text(),
+        "reason_to_create": get_text(10)
+    }
+
+    appointment['id'] = db.write(
+        "appointment",
+        ", ".join(appointment.keys()),
+        "'{}', '{}', '{}', '{}'".format(*appointment.values())
+    )
+
+    return appointment
+
+
 class TicketStatusEnum(Enum):
     open = auto()
     closed = auto()
@@ -267,6 +284,7 @@ def create_patient_complain_relation() -> dict:
     )
 
     return relation
+
 
 def main():
     for _ in range(10):
