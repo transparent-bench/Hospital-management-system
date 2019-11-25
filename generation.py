@@ -286,6 +286,26 @@ def create_patient_complain_relation() -> dict:
     return relation
 
 
+def create_appointment_patient_doctor_relation() -> dict:
+    patient = create_patient()
+    doctor = create_doctor()
+    appointment = create_appointment()
+
+    relation = {
+        "appointment_id": appointment['id'],
+        "patient_id": patient['id'],
+        "doctor_id": doctor['id']
+    }
+
+    relation['id'] = db.write(
+        "appointment_patient_doctor_relation",
+        ", ".join(relation.keys()),
+        "{}, {}, {}".format(*relation.values())
+    )
+
+    return relation
+
+
 def main():
     for _ in range(10):
         create_invoice()
