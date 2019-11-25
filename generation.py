@@ -27,13 +27,11 @@ db.open(
 
 
 def create_auth() -> Dict[str, str]:
-    keys = "login", "password1", "name"
-    values = (
-        p.email(),
-        g.random.custom_code(mask="@@####@@##"),
-        p.name(),
-    )
-    auth = dict(zip(keys, values))
+    auth = {
+        "login": p.email(),
+        "password1": g.random.custom_code(mask="@@####@@##"),
+        "name": p.name()
+    }
     auth['id'] = db.write("auth", "login, password1, name", "'{}', '{}', '{}'".format(*values), is_print=True)
 
     return auth
