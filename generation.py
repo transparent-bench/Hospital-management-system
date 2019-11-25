@@ -20,7 +20,7 @@ db.open(
 )
 
 
-def get_text(length: int = 10) -> str:
+def get_text(length: int = 25) -> str:
     return t.text(length).replace("'", "")[:length]
 
 
@@ -218,6 +218,23 @@ def create_invoice() -> dict:
     return invoice
 
 
+def create_appointment() -> dict:
+    appointment = {
+        "occurrence_date": d.date(),
+        "diagnosis": get_text(10),
+        "description": get_text(),
+        "reason_to_create": get_text(10)
+    }
+
+    appointment['id'] = db.write(
+        "appointment",
+        ", ".join(appointment.keys()),
+        "'{}', '{}', '{}', '{}'".format(*appointment.values())
+    )
+
+    return appointment
+
+
 class TicketStatusEnum(Enum):
     open = auto()
     closed = auto()
@@ -273,6 +290,27 @@ def create_patient_complain_relation() -> dict:
     return relation
 
 
+def create_appointment_patient_doctor_relation() -> dict:
+    patient = create_patient()
+    doctor = create_doctor()
+    appointment = create_appointment()
+
+    relation = {
+        "appointment_id": appointment['id'],
+        "patient_id": patient['id'],
+        "doctor_id": doctor['id']
+    }
+
+    relation['id'] = db.write(
+        "appointment_patient_doctor_relation",
+        ", ".join(relation.keys()),
+        "{}, {}, {}".format(*relation.values())
+    )
+
+    return relation
+
+
+
 def create_doctor_nurse_relation() -> dict:
     doctor = create_doctor()
     nurse = create_nurse()
@@ -291,7 +329,7 @@ def create_doctor_nurse_relation() -> dict:
 
 def main():
     for _ in range(10):
-        create_doctor_nurse_relation()
+        create_invoice()
     pass
 
 

@@ -34,7 +34,7 @@ class Database:
 
     def write(self, table, columns, data, pk='id', is_print=True):
         """
-        :return: id of just inserted row
+        :return: pk of just inserted row
         """
         query = "INSERT INTO {0} ({1}) VALUES ({2}) RETURNING {3};".format(table, columns, data, pk)
         self.cursor.execute(query)
