@@ -160,7 +160,7 @@ def create_nurse(auth_id: Optional[int] = None) -> dict:
     return create_staff(StaffPositionEnum.nurse, auth_id)
 
 
-def create_patient() -> dict:
+def create_patient(is_print: bool = False) -> dict:
     auth = create_auth()
     passport = create_passport()
 
@@ -178,12 +178,13 @@ def create_patient() -> dict:
         ", ".join(patient.keys()),
         "{}, {}, {}, {}, {}, '{}'".format(
             *patient.values()
-        )
+        ),
+        is_print=is_print
     )
     return patient
 
 
-def create_ticket() -> dict:
+def create_ticket(is_print: bool = False) -> dict:
     creation_date = d.date()
     closing_date = creation_date + timedelta(days=g.random.randint(2, 7))
 
@@ -196,13 +197,14 @@ def create_ticket() -> dict:
     ticket['id'] = db.write(
         "ticket",
         ", ".join(ticket.keys()),
-        "'{}', '{}', '{}'".format(*ticket.values())
+        "'{}', '{}', '{}'".format(*ticket.values()),
+        is_print=is_print
     )
 
     return ticket
 
 
-def create_invoice() -> dict:
+def create_invoice(is_print: bool = False) -> dict:
     invoice = {
         "amount": g.random.randint(0, 100000),
         "date_of_creation": d.date(),
@@ -212,13 +214,14 @@ def create_invoice() -> dict:
     invoice['id'] = db.write(
         "invoice",
         ", ".join(invoice.keys()),
-        "'{}', '{}', '{}'".format(*invoice.values())
+        "'{}', '{}', '{}'".format(*invoice.values()),
+        is_print=is_print
     )
 
     return invoice
 
 
-def create_appointment() -> dict:
+def create_appointment(is_print: bool = False) -> dict:
     appointment = {
         "occurrence_date": d.date(),
         "diagnosis": get_text(10),
@@ -229,7 +232,8 @@ def create_appointment() -> dict:
     appointment['id'] = db.write(
         "appointment",
         ", ".join(appointment.keys()),
-        "'{}', '{}', '{}', '{}'".format(*appointment.values())
+        "'{}', '{}', '{}', '{}'".format(*appointment.values()),
+        is_print=is_print
     )
 
     return appointment
@@ -240,7 +244,7 @@ class TicketStatusEnum(Enum):
     closed = auto()
 
 
-def create_staff_ticket_relation() -> dict:
+def create_staff_ticket_relation(is_print: bool = False) -> dict:
     ticket = create_ticket()
     staff = create_staff_with_random_position()
     ticket_status = g.random.choice(list(TicketStatusEnum)).name
@@ -253,12 +257,13 @@ def create_staff_ticket_relation() -> dict:
     relation['id'] = db.write(
         "staff_ticket_relation",
         ", ".join(relation.keys()),
-        "{}, {}, '{}'".format(*relation.values())
+        "{}, {}, '{}'".format(*relation.values()),
+        is_print=is_print
     )
     return relation
 
 
-def create_patient_ticket_relation() -> dict:
+def create_patient_ticket_relation(is_print: bool = False) -> dict:
     patient = create_patient()
     ticket = create_ticket()
     relation = {
@@ -268,13 +273,14 @@ def create_patient_ticket_relation() -> dict:
     relation['id'] = db.write(
         "patient_ticket_relation",
         ", ".join(relation.keys()),
-        "{}, {}".format(*relation.values())
+        "{}, {}".format(*relation.values()),
+        is_print=is_print
     )
 
     return relation
 
 
-def create_patient_complain_relation() -> dict:
+def create_patient_complain_relation(is_print: bool = False) -> dict:
     patient = create_patient()
     complain = create_complain()
     relation = {
@@ -284,13 +290,14 @@ def create_patient_complain_relation() -> dict:
     relation['id'] = db.write(
         "patient_complain_relation",
         ", ".join(relation.keys()),
-        "{}, {}".format(*relation.values())
+        "{}, {}".format(*relation.values()),
+        is_print=is_print
     )
 
     return relation
 
 
-def create_appointment_patient_doctor_relation() -> dict:
+def create_appointment_patient_doctor_relation(is_print: bool = False) -> dict:
     patient = create_patient()
     doctor = create_doctor()
     appointment = create_appointment()
@@ -304,13 +311,14 @@ def create_appointment_patient_doctor_relation() -> dict:
     relation['id'] = db.write(
         "appointment_patient_doctor_relation",
         ", ".join(relation.keys()),
-        "{}, {}, {}".format(*relation.values())
+        "{}, {}, {}".format(*relation.values()),
+        is_print=is_print
     )
 
     return relation
 
 
-def create_doctor_nurse_relation() -> dict:
+def create_doctor_nurse_relation(is_print: bool = False) -> dict:
     doctor = create_doctor()
     nurse = create_nurse()
     relation = {
@@ -320,13 +328,14 @@ def create_doctor_nurse_relation() -> dict:
     relation['id'] = db.write(
         "doctor_nurse_relation",
         ", ".join(relation.keys()),
-        "{}, {}".format(*relation.values())
+        "{}, {}".format(*relation.values()),
+        is_print=is_print
     )
 
     return relation
 
 
-def create_patient_invoice_staff_relation() -> dict:
+def create_patient_invoice_staff_relation(is_print: bool = False) -> dict:
     patient = create_patient()
     invoice = create_invoice()
     administrator = create_staff(StaffPositionEnum.administrator)
@@ -340,7 +349,8 @@ def create_patient_invoice_staff_relation() -> dict:
     relation['id'] = db.write(
         "patient_invoice_staff_relation",
         ", ".join(relation.keys()),
-        "{}, {}, {}".format(*relation.values())
+        "{}, {}, {}".format(*relation.values()),
+        is_print=is_print
     )
 
     return relation

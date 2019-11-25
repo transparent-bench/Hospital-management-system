@@ -32,7 +32,7 @@ class Database:
         rows = self.cursor.fetchall()
         return rows[len(rows) - limit if limit else 0:]
 
-    def write(self, table, columns, data, pk='id', is_print=True):
+    def write(self, table, columns, data, pk='id', is_print: bool = False):
         """
         :return: pk of just inserted row
         """
@@ -40,6 +40,7 @@ class Database:
         self.cursor.execute(query)
         self.conn.commit()
         id_of_new_row = self.cursor.fetchone()[0]
+
         if is_print:
             print(f"{query[:-1]}={id_of_new_row}")
         return id_of_new_row
