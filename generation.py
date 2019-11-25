@@ -217,6 +217,22 @@ def create_staff_ticket_relation():
     return relation
 
 
+def create_patient_ticket_relation() -> dict:
+    patient = create_patient()
+    ticket = create_ticket()
+    relation = {
+        "patient_id": patient['id'],
+        "ticket_id": ticket['id']
+    }
+    relation['id'] = db.write(
+        "patient_ticket_relation",
+        ", ".join(relation.keys()),
+        "{}, {}".format(*relation.values())
+    )
+
+    return relation
+
+
 def main():
     for _ in range(10):
         create_notification()
