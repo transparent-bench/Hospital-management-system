@@ -19,6 +19,9 @@ db.open(
         host="localhost",
 )
 
+def get_text():
+    pass
+
 
 def create_auth() -> Dict[str, str]:
     auth = {
@@ -194,6 +197,22 @@ def create_ticket():
     return ticket
 
 
+def create_invoice():
+    invoice = {
+        "amount": g.random.randint(0, 100000),
+        "date_of_creation": d.date(),
+        "reason": t.sentence(),
+    }
+
+    invoice['id'] = db.write(
+        "invoice",
+        ", ".join(invoice.keys()),
+        "'{}', '{}', '{}'".format(*invoice.values())
+    )
+
+    return invoice
+
+
 class TicketStatusEnum(Enum):
     open = auto()
     closed = auto()
@@ -217,9 +236,11 @@ def create_staff_ticket_relation():
     return relation
 
 
+
+
 def main():
     for _ in range(10):
-        create_notification()
+        create_invoice()
     pass
 
 
