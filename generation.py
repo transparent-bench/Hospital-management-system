@@ -24,19 +24,19 @@ def get_text(length: int = 25) -> str:
     return t.text(length).replace("'", "")[:length]
 
 
-def create_auth() -> Dict[str, str]:
+def create_auth(is_print: bool = False) -> Dict[str, str]:
     auth = {
         "login": p.email(),
         "password1": g.random.custom_code(mask="@@####@@##"),
         "name": p.name()
     }
 
-    auth['id'] = db.write("auth", ", ".join(auth.keys()), "'{}', '{}', '{}'".format(*auth.values()))
+    auth['id'] = db.write("auth", ", ".join(auth.keys()), "'{}', '{}', '{}'".format(*auth.values()), is_print=is_print)
 
     return auth
 
 
-def create_passport() -> Dict[str, Union[str, int, datetime]]:
+def create_passport(is_print: bool = False) -> Dict[str, Union[str, int, datetime]]:
     passport = {
         "seria": g.random.custom_code(mask="####"),
         "number": g.random.custom_code(mask="######"),
@@ -50,7 +50,8 @@ def create_passport() -> Dict[str, Union[str, int, datetime]]:
         "passport",
         ", ".join(passport.keys()),
         "{}, {}, '{}', '{}', '{}', '{}', '{}'".format(*passport.values()),
-        pk='seria, number'
+        pk='seria, number',
+        is_print=is_print,
     )
 
     return passport
@@ -69,7 +70,7 @@ class NotificationStatusEnum(Enum):
     closed = auto()
 
 
-def create_staff(position: Union[str, StaffPositionEnum], auth_id: Optional[int] = None) -> Dict[str, Union[str, datetime, int]]:
+def create_staff(position: Union[str, StaffPositionEnum], auth_id: Optional[int] = None, is_print: bool = False) -> Dict[str, Union[str, datetime, int]]:
     if not auth_id:
         auth_id = create_auth()['id']
 
@@ -93,6 +94,7 @@ def create_staff(position: Union[str, StaffPositionEnum], auth_id: Optional[int]
         "staff",
         ", ".join(staff.keys()),
         "'{}', '{}', {}, {}, '{}', '{}', '{}'".format(*staff.values()),
+        is_print=is_print,
     )
 
     return staff
@@ -102,7 +104,7 @@ def create_staff_with_random_position() -> dict:
     return create_staff(g.random.choice(list(StaffPositionEnum)).name)
 
 
-def create_camera(staff_id: Optional[int] = None) -> Dict[str, Union[str, Tuple[int, int], int]]:
+def create_camera(staff_id: Optional[int] = None, is_print: bool = False) -> Dict[str, Union[str, Tuple[int, int], int]]:
     if not staff_id:
         staff_id = create_staff(StaffPositionEnum.security)['id']
 
@@ -116,12 +118,13 @@ def create_camera(staff_id: Optional[int] = None) -> Dict[str, Union[str, Tuple[
         "camera",
         ", ".join(camera.keys()),
         "'{}', '{}', {}".format(*camera.values()),
+        is_print=is_print,
     )
 
     return camera
 
 
-def create_complain() -> Dict[str, Union[str, datetime, int]]:
+def create_complain(is_print: bool = False) -> Dict[str, Union[str, datetime, int]]:
     complain = {
         "theme": get_text(),
         "creation_date": d.date(),
@@ -132,12 +135,13 @@ def create_complain() -> Dict[str, Union[str, datetime, int]]:
         "complain",
         ", ".join(complain.keys()),
         "'{}', '{}', '{}'".format(*complain.values()),
+        is_print=is_print,
     )
 
     return complain
 
 
-def create_notification() -> Dict[str, str]:
+def create_notification(is_print: bool = False) -> Dict[str, str]:
     notification = {
         "notification_text": get_text(),
         "notification_status": g.random.choice(list(NotificationStatusEnum)).name,
@@ -147,6 +151,7 @@ def create_notification() -> Dict[str, str]:
         "notification",
         ", ".join(notification.keys()),
         "'{}', '{}'".format(*notification.values()),
+        is_print=is_print,
     )
 
     return notification
@@ -335,7 +340,39 @@ def create_doctor_nurse_relation(is_print: bool = False) -> dict:
     return relation
 
 
-def create_patient_invoice_staff_relation(is_print: bool = False) -> dict:
+def create_notification_patient_relation() -> dict:
+    notification = create_notification()
+    patient = create_patient()
+    relation = {
+        "notification_id": notification['id'],
+        "patient_id": patient['id']
+    }
+    relation['id'] = db.write(
+        "notification_patient_relation",
+        ", ".join(relation.keys()),
+        "{}, {}".format(*relation.values())
+    )
+
+    return relation
+
+
+def create_notification_staff_relation() -> dict:
+    notification = create_notification()
+    staff = create_staff_with_random_position()
+    relation = {
+        "notification_id": notification['id'],
+        "staff_id": staff['id']
+    }
+    relation['id'] = db.write(
+        "notification_staff_relation",
+        ", ".join(relation.keys()),
+        "{}, {}".format(*relation.values())
+    )
+
+    return relation
+
+
+def create_patient_invoice_staff_relation() -> dict:
     patient = create_patient()
     invoice = create_invoice()
     administrator = create_staff(StaffPositionEnum.administrator)
