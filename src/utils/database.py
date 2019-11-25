@@ -37,11 +37,12 @@ class Database:
         :return: id of just inserted row
         """
         query = "INSERT INTO {0} ({1}) VALUES ({2}) RETURNING {3};".format(table, columns, data, pk)
-        if is_print:
-            print(query)
         self.cursor.execute(query)
         self.conn.commit()
-        return self.cursor.fetchone()[0]
+        id_of_new_row = self.cursor.fetchone()[0]
+        if is_print:
+            print(f"{query[:-1]}={id_of_new_row}")
+        return id_of_new_row
 
     def query(self, sql):
         self.cursor.execute(sql)
