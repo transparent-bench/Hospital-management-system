@@ -59,7 +59,10 @@ def create_passport() -> Dict[str, Union[str, int, datetime]]:
     return passport
 
 
-def create_staff(auth_id, position) -> Dict[str, Union[str, datetime, int]]:
+def create_staff(position, auth_id: Optional[int]) -> Dict[str, Union[str, datetime, int]]:
+    if not auth_id:
+        auth_id = create_auth()
+
     # todo: make return id as in create_auth
     gender = g.random.choice(["male", "female"])
 
@@ -92,10 +95,7 @@ def create_staff(auth_id, position) -> Dict[str, Union[str, datetime, int]]:
 
 
 def create_doctor(auth_id: Optional[int] = None):
-    if not auth_id:
-        auth_id = create_auth().get('id')
-
-    return create_staff(auth_id, "doctor")
+    return create_staff("doctor", auth_id)
 
 
 def create_patient():
