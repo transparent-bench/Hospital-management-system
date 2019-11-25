@@ -143,16 +143,6 @@ CREATE TABLE IF NOT EXISTS appointment_patient_doctor_relation (
   PRIMARY KEY (id)
 );
 
--- patient_compaint_relation
-CREATE SEQUENCE IF NOT EXISTS patient_compaint_relation_seq;
-
-CREATE TABLE IF NOT EXISTS patient_compaint_relation(
-  id int DEFAULT NEXTVAL ('patient_compaint_relation_seq'),
-  patient_id int,
-  FOREIGN KEY (patient_id) REFERENCES patient(id),
-  PRIMARY KEY (id)
-);
-
 -- patient_ticket_relation
 CREATE SEQUENCE IF NOT EXISTS patient_ticket_relation_seq;
 
