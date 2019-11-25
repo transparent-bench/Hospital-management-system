@@ -1,5 +1,5 @@
 from datetime import datetime
-from enum import Enum
+from enum import Enum, auto
 from typing import Dict, Union, Optional
 
 from mimesis import Datetime, Generic, Person
@@ -33,7 +33,8 @@ def create_auth() -> Dict[str, str]:
         "password1": g.random.custom_code(mask="@@####@@##"),
         "name": p.name()
     }
-    auth['id'] = db.write("auth", ", ".join(auth.keys()), "'{}', '{}', '{}'".format(*auth.values()), is_print=True)
+
+    auth['id'] = db.write("auth", ", ".join(auth.keys()), "'{}', '{}', '{}'".format(*auth.values()))
 
     return auth
 
@@ -57,13 +58,20 @@ def create_passport() -> Dict[str, Union[str, int, datetime]]:
 
     return passport
 
-STAFF_POSITIONS = Enum('STAFF_POSITIONS', 'doctor administrator nurse security IT_administrator')
 
-def create_staff(position: Union[str, STAFF_POSITIONS], auth_id: Optional[int]) -> Dict[str, Union[str, datetime, int]]:
+class StaffPositionEnum(Enum):
+    doctor = auto()
+    administrator = auto()
+    nurse = auto()
+    security = auto()
+    IT_administrator = auto()
+
+
+def create_staff(position: Union[str, StaffPositionEnum], auth_id: Optional[int] = None) -> Dict[str, Union[str, datetime, int]]:
     if not auth_id:
-        auth_id = create_auth()
+        auth_id = create_auth()['id']
 
-    if isinstance(position, STAFF_POSITIONS):
+    if isinstance(position, StaffPositionEnum):
         position = position.name
 
     # todo: make return id as in create_auth

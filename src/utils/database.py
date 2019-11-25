@@ -32,7 +32,7 @@ class Database:
         rows = self.cursor.fetchall()
         return rows[len(rows) - limit if limit else 0:]
 
-    def write(self, table, columns, data, is_print=False):
+    def write(self, table, columns, data, is_print=True):
         """
         :return: id of just inserted row
         """
