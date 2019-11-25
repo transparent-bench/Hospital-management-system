@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS patient (
   id int DEFAULT NEXTVAL ('patient_seq'),
   bank_account_id int,
   auth_id int,
-  phone_num int,
+  phone_num VARCHAR(30),
   insurance_policy_id int,
   passport_seria int check (passport_seria > 0),
   passport_number int check (passport_number > 0),

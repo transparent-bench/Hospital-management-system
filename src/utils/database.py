@@ -32,11 +32,11 @@ class Database:
         rows = self.cursor.fetchall()
         return rows[len(rows) - limit if limit else 0:]
 
-    def write(self, table, columns, data, is_print=True):
+    def write(self, table, columns, data, pk='id', is_print=True):
         """
         :return: id of just inserted row
         """
-        query = "INSERT INTO {0} ({1}) VALUES ({2}) RETURNING id;".format(table, columns, data)
+        query = "INSERT INTO {0} ({1}) VALUES ({2}) RETURNING {3};".format(table, columns, data, pk)
         if is_print:
             print(query)
         self.cursor.execute(query)

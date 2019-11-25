@@ -33,7 +33,6 @@ def create_auth() -> Dict[str, str]:
 
 
 def create_passport() -> Dict[str, Union[str, int, datetime]]:
-    # todo: make return id as in create_auth
     passport = {
         "seria": g.random.custom_code(mask="####"),
         "number": g.random.custom_code(mask="######"),
@@ -47,6 +46,7 @@ def create_passport() -> Dict[str, Union[str, int, datetime]]:
         "passport",
         ", ".join(passport.keys()),
         "{}, {}, '{}', '{}', '{}', '{}', '{}'".format(*passport.values()),
+        pk='seria, number'
     )
 
     return passport
@@ -109,19 +109,31 @@ def create_camera(staff_id: Optional[int] = None) -> Dict[str, Union[str, Tuple[
 
 
 def create_doctor(auth_id: Optional[int] = None):
-    return create_staff("doctor", auth_id)
+    return create_staff(StaffPositionEnum.doctor, auth_id)
 
 
 def create_patient():
-    auth_id = create_auth().get('id')
+    auth = create_auth()
     passport = create_passport()
-    db.write(
+
+    patient = {
+        "auth_id": auth.get('id'),
+        "bank_account_id": p.random.custom_code("######"),
+        "insurance_policy_id": p.random.custom_code("#####"),
+        "passport_seria": passport.get("seria"),
+        "passport_number": passport.get("number"),
+        "phone_num": p.random.custom_code("+###########"),
+    }
+
+    patient['id'] = db.write(
         "patient",
-        "auth_id, passport_seria", "passport_number",
-        "{}, {}, {}".format(
-            auth_id, passport['seria'], passport['number']
+        ", ".join(patient.keys()),
+        "{}, {}, {}, {}, {}, '{}'".format(
+            *patient.values()
         )
     )
+    return patient
+
 
 
 def main():
