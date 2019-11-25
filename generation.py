@@ -310,7 +310,6 @@ def create_appointment_patient_doctor_relation() -> dict:
     return relation
 
 
-
 def create_doctor_nurse_relation() -> dict:
     doctor = create_doctor()
     nurse = create_nurse()
@@ -327,9 +326,41 @@ def create_doctor_nurse_relation() -> dict:
     return relation
 
 
+def create_notification_patient_relation() -> dict:
+    notification = create_notification()
+    patient = create_patient()
+    relation = {
+        "notification_id": notification['id'],
+        "patient_id": patient['id']
+    }
+    relation['id'] = db.write(
+        "notification_patient_relation",
+        ", ".join(relation.keys()),
+        "{}, {}".format(*relation.values())
+    )
+
+    return relation
+
+
+def create_notification_staff_relation() -> dict:
+    notification = create_notification()
+    staff = create_staff_with_random_position()
+    relation = {
+        "notification_id": notification['id'],
+        "staff_id": staff['id']
+    }
+    relation['id'] = db.write(
+        "notification_staff_relation",
+        ", ".join(relation.keys()),
+        "{}, {}".format(*relation.values())
+    )
+
+    return relation
+
+
 def main():
     for _ in range(10):
-        create_invoice()
+        create_notification_staff_relation()
     pass
 
 
