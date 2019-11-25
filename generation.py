@@ -1,4 +1,5 @@
 from datetime import datetime
+from enum import Enum
 from typing import Dict, Union, Optional
 
 from mimesis import Datetime, Generic, Person
@@ -56,10 +57,14 @@ def create_passport() -> Dict[str, Union[str, int, datetime]]:
 
     return passport
 
+STAFF_POSITIONS = Enum('STAFF_POSITIONS', 'doctor administrator nurse security IT_administrator')
 
-def create_staff(position, auth_id: Optional[int]) -> Dict[str, Union[str, datetime, int]]:
+def create_staff(position: Union[str, STAFF_POSITIONS], auth_id: Optional[int]) -> Dict[str, Union[str, datetime, int]]:
     if not auth_id:
         auth_id = create_auth()
+
+    if isinstance(position, STAFF_POSITIONS):
+        position = position.name
 
     # todo: make return id as in create_auth
     gender = g.random.choice(["male", "female"])

@@ -1,5 +1,5 @@
 CREATE TYPE gender_type AS ENUM ('male', 'female');
-CREATE TYPE staff_position_type AS ENUM('doctor', 'administrator', 'nurse', 'security', 'IT-administrator');
+CREATE TYPE staff_position_type AS ENUM('doctor', 'administrator', 'nurse', 'security', 'IT_administrator');
 CREATE TYPE notification_status_type AS ENUM('open', 'closed');
 CREATE TYPE ticket_status_type AS ENUM('open', 'closed');
 
