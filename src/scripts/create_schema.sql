@@ -122,7 +122,7 @@ CREATE SEQUENCE IF NOT EXISTS appointment_seq;
 
 CREATE TABLE IF NOT EXISTS appointment(
   id int DEFAULT NEXTVAL ('appointment_seq'),
-  occurence_date timestamp(0),
+  occurrence_date timestamp(0),
   diagnosis varchar(255),
   description varchar(255),
   reason_to_create varchar(255),
