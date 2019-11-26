@@ -30,9 +30,9 @@ def get_surname() -> str:
     return p.surname().replace("'", "")
 
 
-def get_datetime(start_hour: int = 9, end_hour: int = 17) -> datetime:
+def get_datetime(start_hour: int = 9, end_hour: int = 17, start_year: int = 2000, end_year: int = 2020) -> datetime:
     while True:
-        new_datetime = d.datetime()
+        new_datetime = d.datetime(start=start_year, end=end_year)
         if start_hour < new_datetime.hour < end_hour:
             return new_datetime
 
@@ -248,9 +248,9 @@ def create_invoice(is_print: bool = False) -> dict:
     return invoice
 
 
-def create_appointment(is_print: bool = False) -> dict:
+def create_appointment(start_year: int = 2000, end_year: int = 2020, is_print: bool = False) -> dict:
     appointment = {
-        "occurrence_date": get_datetime(),
+        "occurrence_date": get_datetime(start_year=start_year, end_year=end_year),
         "diagnosis": get_text(10),
         "description": get_text(),
         "reason_to_create": get_text(10),
@@ -318,10 +318,13 @@ def create_patient_complain_relation(is_print: bool = False) -> dict:
     return relation
 
 
-def create_appointment_patient_doctor_relation(is_print: bool = False) -> dict:
-    patient = create_patient()
-    doctor = create_doctor()
-    appointment = create_appointment()
+def create_appointment_patient_doctor_relation(patient: dict = None, doctor: dict = None,
+                                               start_year: int = 2000, end_year: int = 2020, is_print: bool = False) -> dict:
+    if patient is None:
+        patient = create_patient()
+    if doctor is None:
+        doctor = create_doctor()
+    appointment = create_appointment(start_year=start_year, end_year=end_year)
 
     relation = {
         "appointment_id": appointment["id"],
