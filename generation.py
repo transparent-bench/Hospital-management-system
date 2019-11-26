@@ -24,6 +24,9 @@ def get_text(length: int = 25) -> str:
 def get_name() -> str:
     return p.name().replace("'", "")
 
+def get_surname() -> str:
+    return p.surname().replace("'", "")
+
 
 def create_auth(is_print: bool = False) -> Dict[str, str]:
     auth = {
@@ -48,7 +51,7 @@ def create_passport(is_print: bool = False) -> Dict[str, Union[str, int, datetim
         "number": g.random.custom_code(mask="######"),
         "birth": d.date(start=1950),
         "f_name": get_name(),
-        "l_name": p.surname(),
+        "l_name": get_surname(),
         "gender": p.random.choice(["male", "female"]),
         "address": p.occupation(),
     }
@@ -92,7 +95,7 @@ def create_staff(
 
     staff = {
         "first_name": get_name(),
-        "last_name": p.surname(),
+        "last_name": get_surname(),
         "room": g.random.randint(1, 100),
         "auth_id": auth_id,
         "birthday": d.date(start=1950),
