@@ -259,9 +259,12 @@ def create_invoice(is_print: bool = False) -> dict:
     return invoice
 
 
-def create_appointment(start_year: int = 2000, end_year: int = 2020, is_print: bool = False) -> dict:
+def create_appointment(start_year: int = 2000, end_year: int = 2020, occurence_date = None, is_print: bool = False) -> dict:
+    if not occurence_date:
+        occurence_date = get_datetime(start_year=start_year, end_year=end_year),
+
     appointment = {
-        "occurrence_date": get_datetime(start_year=start_year, end_year=end_year),
+        "occurrence_date": occurence_date,
         "diagnosis": get_text(10),
         "description": get_text(),
         "reason_to_create": get_text(10),
@@ -330,12 +333,14 @@ def create_patient_complain_relation(is_print: bool = False) -> dict:
 
 
 def create_appointment_patient_doctor_relation(patient: dict = None, doctor: dict = None,
+                                               appointment: dict = None,
                                                start_year: int = 2000, end_year: int = 2020, is_print: bool = False) -> dict:
     if patient is None:
         patient = create_patient()
     if doctor is None:
         doctor = create_doctor()
-    appointment = create_appointment(start_year=start_year, end_year=end_year)
+    if appointment is None:
+        appointment = create_appointment(start_year=start_year, end_year=end_year)
 
     relation = {
         "appointment_id": appointment["id"],
@@ -451,5 +456,5 @@ def main():
     create_population()
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
