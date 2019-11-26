@@ -32,9 +32,9 @@ def get_surname() -> str:
 
 def get_datetime(start_hour: int = 9, end_hour: int = 17) -> datetime:
     while True:
-        datetime = d.datetime()
-        if datetime.hour > start_hour and datetime.hour < end_hour:
-            return datetime
+        new_datetime = d.datetime()
+        if start_hour < new_datetime.hour < end_hour:
+            return new_datetime
 
 
 def create_auth(is_print: bool = False) -> Dict[str, str]:
