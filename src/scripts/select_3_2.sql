@@ -1,4 +1,4 @@
-select generate_series.generate_series as date_from, second_series.generate_series as date_until, patients.patient_id, occurrence_date
+select generate_series.generate_series as date_from, second_series.generate_series as date_until, patients.patient_id
 
 from generate_series(current_date + interval '1 day' - interval '4 week', current_date + interval '1 day' - interval '1 week', interval '1 week')
 inner join (
@@ -19,6 +19,5 @@ inner join (
                         GROUP BY p.id, p2.f_name, p2.l_name
                      ) as t on t.id = r.patient_id
         group by r.patient_id, a.occurrence_date
-        having count(a.id)>=2
     ) as patients
 on patients.occurrence_date between generate_series.generate_series and second_series.generate_series;
