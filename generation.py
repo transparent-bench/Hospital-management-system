@@ -37,9 +37,20 @@ def get_datetime(start_hour: int = 9, end_hour: int = 17, start_year: int = 2000
             return new_datetime
 
 
+def get_login_auth():
+    db.cursor.execute("SELECT login from auth;")
+    all_known_logins = db.cursor.fetchall()
+    import operator
+    all_known_logins = set(map(operator.itemgetter(0), all_known_logins))
+    new_login = p.email()
+    while new_login in all_known_logins:
+        new_login = p.email()
+    return new_login
+
+
 def create_auth(is_print: bool = False) -> Dict[str, str]:
     auth = {
-        "login": p.email(),
+        "login": get_login_auth(),
         "password1": g.random.custom_code(mask="@@####@@##"),
         "name": get_name(),
     }
