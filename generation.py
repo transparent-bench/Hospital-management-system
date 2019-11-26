@@ -21,11 +21,15 @@ def get_text(length: int = 25) -> str:
     return t.text(length).replace("'", "")[:length]
 
 
+def get_name() -> str:
+    return p.name().replace("'", "")
+
+
 def create_auth(is_print: bool = False) -> Dict[str, str]:
     auth = {
         "login": p.email(),
         "password1": g.random.custom_code(mask="@@####@@##"),
-        "name": p.name(),
+        "name": get_name(),
     }
 
     auth["id"] = db.write(
@@ -43,7 +47,7 @@ def create_passport(is_print: bool = False) -> Dict[str, Union[str, int, datetim
         "seria": g.random.custom_code(mask="####"),
         "number": g.random.custom_code(mask="######"),
         "birth": d.date(start=1950),
-        "f_name": p.name(),
+        "f_name": get_name(),
         "l_name": p.surname(),
         "gender": p.random.choice(["male", "female"]),
         "address": p.occupation(),
@@ -87,7 +91,7 @@ def create_staff(
     gender = g.random.choice(["male", "female"])
 
     staff = {
-        "first_name": p.name(),
+        "first_name": get_name(),
         "last_name": p.surname(),
         "room": g.random.randint(1, 100),
         "auth_id": auth_id,
@@ -117,7 +121,7 @@ def create_camera(
         staff_id = create_staff(StaffPositionEnum.security)["id"]
 
     camera = {
-        "name": p.name(),
+        "name": get_name(),
         "location": (g.random.randint(0, 180), g.random.randint(0, 180)),
         "staff_id": staff_id,
     }
