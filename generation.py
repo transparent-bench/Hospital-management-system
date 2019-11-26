@@ -142,7 +142,7 @@ def create_camera(
 def create_complain(is_print: bool = False) -> Dict[str, Union[str, datetime, int]]:
     complain = {
         "theme": get_text(),
-        "creation_date": d.date(),
+        "creation_date": get_datetime(),
         "complain_text": get_text(),
     }
 
@@ -203,7 +203,7 @@ def create_patient(is_print: bool = False) -> dict:
 
 
 def create_ticket(is_print: bool = False) -> dict:
-    creation_date = d.date()
+    creation_date = get_datetime()
     closing_date = creation_date + timedelta(days=g.random.randint(2, 7))
 
     ticket = {
@@ -225,7 +225,7 @@ def create_ticket(is_print: bool = False) -> dict:
 def create_invoice(is_print: bool = False) -> dict:
     invoice = {
         "amount": g.random.randint(0, 100000),
-        "date_of_creation": d.date(),
+        "date_of_creation": get_datetime(),
         "reason": get_text(),
     }
 
@@ -241,7 +241,7 @@ def create_invoice(is_print: bool = False) -> dict:
 
 def create_appointment(is_print: bool = False) -> dict:
     appointment = {
-        "occurrence_date": d.date(),
+        "occurrence_date": get_datetime(),
         "diagnosis": get_text(10),
         "description": get_text(),
         "reason_to_create": get_text(10),
