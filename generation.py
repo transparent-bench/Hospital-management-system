@@ -11,6 +11,7 @@ g = Generic("en")
 t = Text("en")
 d = Datetime()
 
+
 db = Database()
 db.open(
     dbname="hospital_management_system", user="postgres", password="", host="localhost",
@@ -24,8 +25,16 @@ def get_text(length: int = 25) -> str:
 def get_name() -> str:
     return p.name().replace("'", "")
 
+
 def get_surname() -> str:
     return p.surname().replace("'", "")
+
+
+def get_datetime(start_hour: int = 9, end_hour: int = 17) -> datetime:
+    while True:
+        datetime = d.datetime()
+        if datetime.hour > start_hour and datetime.hour < end_hour:
+            return datetime
 
 
 def create_auth(is_print: bool = False) -> Dict[str, str]:
