@@ -5,7 +5,7 @@ inner join (
     select * from generate_series(current_date + interval '1 day' - interval '3 week', current_date + interval '1 day', interval '1 week')
     ) second_series
     on generate_series.generate_series = second_series.generate_series - interval '1 week'
-left join (
+inner join (
     select r.patient_id, a.occurrence_date, count(a.id) as week_count
         from appointment a
                  inner join appointment_patient_doctor_relation r on a.id = r.appointment_id
