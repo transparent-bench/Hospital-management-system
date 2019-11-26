@@ -261,7 +261,7 @@ def create_invoice(is_print: bool = False) -> dict:
 
 def create_appointment(start_year: int = 2000, end_year: int = 2020, occurence_date = None, is_print: bool = False) -> dict:
     if not occurence_date:
-        occurence_date = get_datetime(start_year=start_year, end_year=end_year),
+        occurence_date = get_datetime(start_year=start_year, end_year=end_year)
 
     appointment = {
         "occurrence_date": occurence_date,
