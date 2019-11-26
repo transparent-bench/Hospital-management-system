@@ -106,8 +106,8 @@ def create_staff(
     return staff
 
 
-def create_staff_with_random_position() -> dict:
-    return create_staff(g.random.choice(list(StaffPositionEnum)).name)
+def create_staff_with_random_position(is_print: bool = False) -> dict:
+    return create_staff(g.random.choice(list(StaffPositionEnum)).name, is_print=is_print)
 
 
 def create_camera(
@@ -165,12 +165,12 @@ def create_notification(is_print: bool = False) -> Dict[str, str]:
     return notification
 
 
-def create_doctor(auth_id: Optional[int] = None) -> dict:
-    return create_staff(StaffPositionEnum.doctor, auth_id)
+def create_doctor(auth_id: Optional[int] = None, is_print: bool = False) -> dict:
+    return create_staff(StaffPositionEnum.doctor, auth_id, is_print=is_print)
 
 
-def create_nurse(auth_id: Optional[int] = None) -> dict:
-    return create_staff(StaffPositionEnum.nurse, auth_id)
+def create_nurse(auth_id: Optional[int] = None, is_print: bool = False) -> dict:
+    return create_staff(StaffPositionEnum.nurse, auth_id, is_print=is_print)
 
 
 def create_patient(is_print: bool = False) -> dict:
