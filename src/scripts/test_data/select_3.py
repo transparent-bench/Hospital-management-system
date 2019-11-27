@@ -1,4 +1,4 @@
-from generation import create_patient, create_appointment_patient_doctor_relation, create_appointment
+from src.utils.generation import create_patient, create_appointment_patient_doctor_relation, create_appointment
 from datetime import datetime, timedelta
 
 

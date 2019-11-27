@@ -1,4 +1,4 @@
-from generation import create_doctor, create_appointment_patient_doctor_relation
+from src.utils.generation import create_doctor, create_appointment_patient_doctor_relation
 
 
 def populate():
