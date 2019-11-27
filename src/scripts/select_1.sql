@@ -1,4 +1,4 @@
-select * from staff
+select staff.first_name, staff.last_name, staff.room from staff
 inner join (
     select distinct doctor_id
     from appointment_patient_doctor_relation apdr1
@@ -9,7 +9,7 @@ inner join (
             select occurrence_date
             from appointment
                      left join patient p
-                               on p.phone_num = '1234556'
+                               on p.phone_num = '{}'
                      left join appointment_patient_doctor_relation apdr2
                                on appointment.id = apdr2.appointment_id and
                                   apdr2.patient_id = p.id
