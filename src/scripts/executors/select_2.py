@@ -1,9 +1,11 @@
 from src.scripts.executors.base import BaseExecutor
 
-TIMESLOTS = (('9:00', '10:00'),
-             ('10:00', '11:00'),
+TIMESLOTS = (('10:00', '11:00'),
+             ('11:00', '12:00'),
              ('12:00', '13:00'),
+             ('13:00', '14:00'),
              ('14:00', '15:00'),
+             ('15:00', '16:00'),
              ('16:00', '17:00'))
 
 
@@ -21,7 +23,22 @@ class Select21Executor(BaseExecutor):
                 else:
                     appointments[str(staff_id)] = {time_from: n_app}
 
-        return appointments
+        for doctor_id, app_data in appointments.items():
+            data_for_current_doctor = [int(doctor_id), ]
+            import operator
+            timeslot_starts = list(map(operator.itemgetter(0), TIMESLOTS))
+            for start in timeslot_starts:
+                # add total number of appointments
+                data_for_current_doctor.append(app_data.get(start, 0))
+            for start in timeslot_starts:
+                # add average number of appointments
+                data_for_current_doctor.append(app_data.get(start, 0) / 50)
+
+
+            results.append(tuple(data_for_current_doctor))
+
+        return results
+
 
 if __name__ == '__main__':
     print(Select21Executor().fetch())
