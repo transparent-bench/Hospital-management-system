@@ -9,7 +9,7 @@ TIMESLOTS = (
 )
 
 
-class Select21Executor(BaseExecutor):
+class Select22Executor(BaseExecutor):
     file_name = "../select_2_2.sql"
 
     def fetch(self):
@@ -20,4 +20,4 @@ class Select21Executor(BaseExecutor):
 
 
 if __name__ == "__main__":
-    print(Select21Executor().fetch())
+    print(Select22Executor().fetch())
