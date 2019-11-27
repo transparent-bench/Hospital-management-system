@@ -1,4 +1,9 @@
-from src.utils.generation import create_patient, create_appointment, create_appointment_patient_doctor_relation, get_datetime
+from src.utils.generation import (
+    create_appointment,
+    create_appointment_patient_doctor_relation,
+    create_patient,
+    get_datetime,
+)
 
 
 def populate():
@@ -9,12 +14,15 @@ def populate():
     some_date.replace(month=11, day=27)
 
     for _ in range(10):
-        create_appointment_patient_doctor_relation(patient=patient,
-                                                   appointment=create_appointment(occurrence_date=some_date),
-                                                   start_year=2018, is_print=is_print)
+        create_appointment_patient_doctor_relation(
+            patient=patient,
+            appointment=create_appointment(occurrence_date=some_date),
+            start_year=2018,
+            is_print=is_print,
+        )
 
     print(f"Patient={patient}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     populate()

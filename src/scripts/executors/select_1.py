@@ -2,7 +2,7 @@ from src.scripts.executors.base import BaseExecutor
 
 
 class Select1Executor(BaseExecutor):
-    file_name = '../select_1.sql'
+    file_name = "../select_1.sql"
 
     def fetch(self, *options):
         if not options:
@@ -10,5 +10,5 @@ class Select1Executor(BaseExecutor):
         return super().fetch(*options)
 
 
-if __name__ == '__main__':
-    print(Select1Executor().fetch('+69998845204'))
+if __name__ == "__main__":
+    print(Select1Executor().fetch("+69998845204"))

@@ -1,5 +1,6 @@
-from src.scripts.executors.base import BaseExecutor
 import operator
+
+from src.scripts.executors.base import BaseExecutor
 
 
 class Select32Executor(BaseExecutor):

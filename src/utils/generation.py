@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from enum import Enum, auto
-from typing import Dict, Union, Optional, Tuple
+from typing import Dict, Optional, Tuple, Union
 
 from mimesis import Datetime, Generic, Person, Text
 
@@ -30,7 +30,7 @@ def get_surname() -> str:
     return p.surname().replace("'", "")
 
 
-def get_datetime(start_hour: int = 9, end_hour: int = 17, start_year: int = 2000, end_year: int = 2020) -> datetime:
+def get_datetime(start_hour: int = 9, end_hour: int = 17, start_year: int = 2000, end_year: int = 2020,) -> datetime:
     while True:
         new_datetime = d.datetime(start=start_year, end=end_year)
         if start_hour < new_datetime.hour < end_hour:
@@ -41,6 +41,7 @@ def get_login_auth():
     db.cursor.execute("SELECT login from auth;")
     all_known_logins = db.cursor.fetchall()
     import operator
+
     all_known_logins = set(map(operator.itemgetter(0), all_known_logins))
     new_login = p.email()
     while new_login in all_known_logins:
@@ -55,17 +56,12 @@ def create_auth(is_print: bool = False) -> Dict[str, str]:
         "name": get_name(),
     }
 
-    auth["id"] = db.write(
-        "auth",
-        ", ".join(auth.keys()),
-        "'{}', '{}', '{}'".format(*auth.values()),
-        is_print=is_print,
-    )
+    auth["id"] = db.write("auth", ", ".join(auth.keys()), "'{}', '{}', '{}'".format(*auth.values()), is_print=is_print,)
 
     return auth
 
 
-def create_passport(is_print: bool = False) -> Dict[str, Union[str, int, datetime]]:
+def create_passport(is_print: bool = False,) -> Dict[str, Union[str, int, datetime]]:
     passport = {
         "seria": g.random.custom_code(mask="####"),
         "number": g.random.custom_code(mask="######"),
@@ -100,9 +96,7 @@ class NotificationStatusEnum(Enum):
 
 
 def create_staff(
-    position: Union[str, StaffPositionEnum],
-    auth_id: Optional[int] = None,
-    is_print: bool = False,
+    position: Union[str, StaffPositionEnum], auth_id: Optional[int] = None, is_print: bool = False,
 ) -> Dict[str, Union[str, datetime, int]]:
     if not auth_id:
         auth_id = create_auth()["id"]
@@ -150,16 +144,13 @@ def create_camera(
     }
 
     camera["id"] = db.write(
-        "camera",
-        ", ".join(camera.keys()),
-        "'{}', '{}', {}".format(*camera.values()),
-        is_print=is_print,
+        "camera", ", ".join(camera.keys()), "'{}', '{}', {}".format(*camera.values()), is_print=is_print,
     )
 
     return camera
 
 
-def create_complain(is_print: bool = False) -> Dict[str, Union[str, datetime, int]]:
+def create_complain(is_print: bool = False,) -> Dict[str, Union[str, datetime, int]]:
     complain = {
         "theme": get_text(),
         "creation_date": get_datetime(),
@@ -167,10 +158,7 @@ def create_complain(is_print: bool = False) -> Dict[str, Union[str, datetime, in
     }
 
     complain["id"] = db.write(
-        "complain",
-        ", ".join(complain.keys()),
-        "'{}', '{}', '{}'".format(*complain.values()),
-        is_print=is_print,
+        "complain", ", ".join(complain.keys()), "'{}', '{}', '{}'".format(*complain.values()), is_print=is_print,
     )
 
     return complain
@@ -183,10 +171,7 @@ def create_notification(is_print: bool = False) -> Dict[str, str]:
     }
 
     notification["id"] = db.write(
-        "notification",
-        ", ".join(notification.keys()),
-        "'{}', '{}'".format(*notification.values()),
-        is_print=is_print,
+        "notification", ", ".join(notification.keys()), "'{}', '{}'".format(*notification.values()), is_print=is_print,
     )
 
     return notification
@@ -214,10 +199,7 @@ def create_patient(is_print: bool = False) -> dict:
     }
 
     patient["id"] = db.write(
-        "patient",
-        ", ".join(patient.keys()),
-        "{}, {}, {}, {}, {}, '{}'".format(*patient.values()),
-        is_print=is_print,
+        "patient", ", ".join(patient.keys()), "{}, {}, {}, {}, {}, '{}'".format(*patient.values()), is_print=is_print,
     )
     return patient
 
@@ -233,10 +215,7 @@ def create_ticket(is_print: bool = False) -> dict:
     }
 
     ticket["id"] = db.write(
-        "ticket",
-        ", ".join(ticket.keys()),
-        "'{}', '{}', '{}'".format(*ticket.values()),
-        is_print=is_print,
+        "ticket", ", ".join(ticket.keys()), "'{}', '{}', '{}'".format(*ticket.values()), is_print=is_print,
     )
 
     return ticket
@@ -250,16 +229,15 @@ def create_invoice(is_print: bool = False) -> dict:
     }
 
     invoice["id"] = db.write(
-        "invoice",
-        ", ".join(invoice.keys()),
-        "'{}', '{}', '{}'".format(*invoice.values()),
-        is_print=is_print,
+        "invoice", ", ".join(invoice.keys()), "'{}', '{}', '{}'".format(*invoice.values()), is_print=is_print,
     )
 
     return invoice
 
 
-def create_appointment(start_year: int = 2000, end_year: int = 2020, occurrence_date = None, is_print: bool = False) -> dict:
+def create_appointment(
+    start_year: int = 2000, end_year: int = 2020, occurrence_date=None, is_print: bool = False,
+) -> dict:
     if not occurrence_date:
         occurrence_date = get_datetime(start_year=start_year, end_year=end_year)
 
@@ -309,10 +287,7 @@ def create_patient_ticket_relation(is_print: bool = False) -> dict:
     ticket = create_ticket()
     relation = {"patient_id": patient["id"], "ticket_id": ticket["id"]}
     relation["id"] = db.write(
-        "patient_ticket_relation",
-        ", ".join(relation.keys()),
-        "{}, {}".format(*relation.values()),
-        is_print=is_print,
+        "patient_ticket_relation", ", ".join(relation.keys()), "{}, {}".format(*relation.values()), is_print=is_print,
     )
 
     return relation
@@ -323,18 +298,20 @@ def create_patient_complain_relation(is_print: bool = False) -> dict:
     complain = create_complain()
     relation = {"patient_id": patient["id"], "complain_id": complain["id"]}
     relation["id"] = db.write(
-        "patient_complain_relation",
-        ", ".join(relation.keys()),
-        "{}, {}".format(*relation.values()),
-        is_print=is_print,
+        "patient_complain_relation", ", ".join(relation.keys()), "{}, {}".format(*relation.values()), is_print=is_print,
     )
 
     return relation
 
 
-def create_appointment_patient_doctor_relation(patient: dict = None, doctor: dict = None,
-                                               appointment: dict = None,
-                                               start_year: int = 2000, end_year: int = 2020, is_print: bool = False) -> dict:
+def create_appointment_patient_doctor_relation(
+    patient: dict = None,
+    doctor: dict = None,
+    appointment: dict = None,
+    start_year: int = 2000,
+    end_year: int = 2020,
+    is_print: bool = False,
+) -> dict:
     if patient is None:
         patient = create_patient()
     if doctor is None:
@@ -363,10 +340,7 @@ def create_doctor_nurse_relation(is_print: bool = False) -> dict:
     nurse = create_nurse()
     relation = {"doctor_id": doctor["id"], "nurse_id": nurse["id"]}
     relation["id"] = db.write(
-        "doctor_nurse_relation",
-        ", ".join(relation.keys()),
-        "{}, {}".format(*relation.values()),
-        is_print=is_print,
+        "doctor_nurse_relation", ", ".join(relation.keys()), "{}, {}".format(*relation.values()), is_print=is_print,
     )
 
     return relation
@@ -375,7 +349,10 @@ def create_doctor_nurse_relation(is_print: bool = False) -> dict:
 def create_notification_patient_relation(is_print: bool = False) -> dict:
     notification = create_notification()
     patient = create_patient()
-    relation = {"notification_id": notification["id"], "patient_id": patient["id"]}
+    relation = {
+        "notification_id": notification["id"],
+        "patient_id": patient["id"],
+    }
     relation["id"] = db.write(
         "notification_patient_relation",
         ", ".join(relation.keys()),

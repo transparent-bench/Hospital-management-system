@@ -1,4 +1,7 @@
-from src.utils.generation import create_patient, create_appointment_patient_doctor_relation
+from src.utils.generation import (
+    create_appointment_patient_doctor_relation,
+    create_patient,
+)
 
 
 def populate(is_print=False):
@@ -15,5 +18,5 @@ def main():
     populate(is_print=True)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
