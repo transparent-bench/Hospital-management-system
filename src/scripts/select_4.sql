@@ -1,6 +1,6 @@
 SELECT sum(a.total)
 FROM (
-    SELECT count(*) as appointment_count,
+    SELECT count(*),
     CASE
         WHEN current_date-p.birth >= interval '50 year' AND count(*) >= 3 THEN 500*count(*)
         WHEN current_date-p.birth >= interval '50 year' AND count(*) < 3 THEN 400*count(*)
