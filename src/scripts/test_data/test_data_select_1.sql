@@ -10,13 +10,13 @@ insert into patient(bank_account_id, auth_id, phone_num, insurance_policy_id, pa
     VALUES (Null, 3, 1234556, 173875, 1234, 567890);
 
 
-insert into appointment(occurence_date, diagnosis, description, reason_to_create)
+insert into appointment(occurrence_date, diagnosis, description, reason_to_create)
     VALUES ('2019-10-03', 'obesity', 'he is too fat', 'make him smaller');
-insert into appointment(occurence_date, diagnosis, description, reason_to_create)
+insert into appointment(occurrence_date, diagnosis, description, reason_to_create)
     VALUES ('2019-10-03', 'Stress', 'description', 'reason');
-insert into appointment(occurence_date, diagnosis, description, reason_to_create)
+insert into appointment(occurrence_date, diagnosis, description, reason_to_create)
     VALUES ('2019-10-03', 'obesity', 'he is too fat', 'make him smaller');
-insert into appointment(occurence_date, diagnosis, description, reason_to_create)
+insert into appointment(occurrence_date, diagnosis, description, reason_to_create)
     VALUES ('2019-9-03', 'old obesity', 'he is too fat', 'make him smaller');
 
 
