@@ -17,6 +17,8 @@ class Database:
             self.conn.commit()
             self.cursor.close()
             self.conn.close()
+            self.conn = None
+            self.cursor = None
 
     def __enter__(self):
         return self
@@ -59,8 +61,12 @@ class Database:
 
 
 def drop_and_create():
+    from src.utils.generation import db
+    db.close()
     drop_database()
     init_database()
+    db._check_if_opened()
+
     return True
 
 
