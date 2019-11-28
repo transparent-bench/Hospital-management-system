@@ -192,12 +192,12 @@ def create_patient(is_print: bool = False) -> dict:
     passport = create_passport(is_print=is_print)
 
     patient = {
+        "phone_num": p.random.custom_code("+###########"),
         "auth_id": auth.get("id"),
         "bank_account_id": p.random.custom_code("######"),
         "insurance_policy_id": p.random.custom_code("#####"),
         "passport_seria": passport.get("seria"),
         "passport_number": passport.get("number"),
-        "phone_num": p.random.custom_code("+###########"),
     }
 
     patient["id"] = db.write(
