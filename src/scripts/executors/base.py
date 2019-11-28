@@ -18,15 +18,14 @@ class BaseExecutor(ABC):
 
     def fetch(self, *options, **kwargs):
         with Database() as db:
-            db.open(
-                dbname=config.db_name, user=config.user, password=config.password, host=config.host
-            )
+            db._check_if_opened()
+
             with open(self.file_name, "r") as file:
                 sql_query = file.read()
                 if options:
                     sql_query = sql_query.format(*options)
             db.cursor.execute(sql_query)
-            if kwargs.get("fetch_results", False):
+            if kwargs.get("fetch_results", True):
                 results = db.cursor.fetchall()
                 return results
             return []
