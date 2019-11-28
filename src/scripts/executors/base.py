@@ -1,8 +1,8 @@
 import pathlib
 from abc import ABC, abstractmethod
 
+from src import config
 from src.utils.database import Database
-import config
 
 
 class BaseExecutor(ABC):

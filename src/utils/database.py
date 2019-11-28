@@ -1,5 +1,6 @@
 import psycopg2
-import config
+
+from src import config
 
 
 class Database:
