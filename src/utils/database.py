@@ -58,9 +58,10 @@ class Database:
         return rows
 
 
-def drop_and_init():
+def drop_and_create():
     drop_database()
     init_database()
+    return True
 
 
 def drop_database():

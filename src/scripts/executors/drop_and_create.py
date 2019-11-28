@@ -1,5 +1,5 @@
 from src.scripts.executors import BaseExecutor
-from src.utils.database import drop_and_init
+from src.utils.database import drop_and_create
 
 
 class DropAndCreate(BaseExecutor):
@@ -7,4 +7,4 @@ class DropAndCreate(BaseExecutor):
     index = 'drop_and_create'
 
     def fetch(self, *options, **kwargs):
-        drop_and_init()
+        return drop_and_create()
