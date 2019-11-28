@@ -39,6 +39,6 @@ class BaseExecutor(ABC):
         cls._subclasses[cls.index] = cls
 
     @classmethod
-    def get_subclass(cls, index: str) -> BaseExecutor:
+    def get_subclass(cls, index: str):
         import src.scripts.executors
         return cls._subclasses.get(index)
