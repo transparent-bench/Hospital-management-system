@@ -5,6 +5,7 @@ from src.scripts.executors.base import BaseExecutor
 
 class Select32Executor(BaseExecutor):
     file_name = "../select_3_2.sql"
+    index = '3-2'
 
     def fetch(self):
         results: list = super().fetch()

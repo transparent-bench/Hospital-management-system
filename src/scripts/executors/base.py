@@ -9,6 +9,11 @@ class BaseExecutor(ABC):
     def file_name(self) -> str:
         raise NotImplementedError
 
+    @property
+    @abstractmethod
+    def index(self) -> str:
+        raise NotImplementedError
+
     def fetch(self, *options):
         with Database() as db:
             db.open(
@@ -21,3 +26,14 @@ class BaseExecutor(ABC):
             db.cursor.execute(sql_query)
             results = db.cursor.fetchall()
             return results
+
+    _subclasses = dict()
+
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        cls._subclasses[cls.index] = cls
+
+    @classmethod
+    def get_subclass(cls, index: str):
+        import src.scripts.executors
+        return cls._subclasses.get(index)
