@@ -6,8 +6,7 @@ from src.utils.generation import (
 )
 
 
-def populate():
-    is_print = True
+def populate(is_print=False):
     patient = create_patient(is_print=is_print)
 
     some_date = get_datetime(start_year=2019)

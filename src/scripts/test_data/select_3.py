@@ -7,8 +7,7 @@ from src.utils.generation import (
 )
 
 
-def populate():
-    is_print = True
+def populate(is_print=False):
     patient = create_patient(is_print=is_print)
     base_datetime = datetime.today()
     datetimes_of_appointments = [base_datetime - timedelta(weeks=i) for i in range(0, 4)]

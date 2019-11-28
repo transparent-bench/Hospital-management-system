@@ -432,11 +432,12 @@ def create_population(is_print: bool = True):
     #     create_staff_ticket_relation(is_print=is_print)
     db._check_if_opened()
 
-    select_1.populate()
-    select_2.populate()
-    select_3.populate()
-    select_4.populate()
-    select_5.populate()
+    is_print = True
+    select_1.populate(is_print=is_print)
+    select_2.populate(is_print=is_print)
+    select_3.populate(is_print=is_print)
+    select_4.populate(is_print=is_print)
+    select_5.populate(is_print=is_print)
 
 
 def main():
