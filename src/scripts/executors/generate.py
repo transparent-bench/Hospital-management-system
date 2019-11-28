@@ -6,5 +6,5 @@ class GenerateExecutor(BaseExecutor):
     index = 'generate'
     file_name = None
 
-    def fetch(self) -> None:
+    def fetch(self, *options, **kwargs) -> None:
         create_population(is_print=True)
