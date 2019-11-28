@@ -408,42 +408,42 @@ def create_population(is_print: bool = True):
     import src.scripts.test_data.select_3 as select_3
     import src.scripts.test_data.select_4 as select_4
     import src.scripts.test_data.select_5 as select_5
-    # for _ in range(70):
-    #     create_auth(is_print=is_print)
-    # for _ in range(10):
-    #     create_doctor(is_print=is_print)
-    #     create_nurse(is_print=is_print)
-    #     create_staff_with_random_position(is_print=is_print)
-    #     create_invoice(is_print=is_print)
-    #     create_complain(is_print=is_print)
-    #     create_camera(is_print=is_print)
-    # for _ in range(40):
-    #     create_passport(is_print=is_print)
-    #     create_patient(is_print=is_print)
-    #     create_invoice(is_print=is_print)
-    # for _ in range(30):
-    #     create_notification(is_print=is_print)
-    #     create_ticket(is_print=is_print)
-    # for _ in range(50):
-    #     create_appointment(is_print=is_print)
-    #     create_appointment_patient_doctor_relation(is_print=is_print)
-    # for _ in range(10):
-    #     create_doctor_nurse_relation(is_print=is_print)
-    #     create_notification_patient_relation(is_print=is_print)
-    #     create_patient_complain_relation(is_print=is_print)
-    #     create_patient_invoice_staff_relation(is_print=is_print)
-    #     create_patient_ticket_relation(is_print=is_print)
-    # for _ in range(20):
-    #     create_notification_staff_relation(is_print=is_print)
-    #     create_staff_ticket_relation(is_print=is_print)
     db._check_if_opened()
+    for _ in range(70):
+        create_auth(is_print=is_print)
+    for _ in range(10):
+        create_doctor(is_print=is_print)
+        create_nurse(is_print=is_print)
+        create_staff_with_random_position(is_print=is_print)
+        create_invoice(is_print=is_print)
+        create_complain(is_print=is_print)
+        create_camera(is_print=is_print)
+    for _ in range(40):
+        create_passport(is_print=is_print)
+        create_patient(is_print=is_print)
+        create_invoice(is_print=is_print)
+    for _ in range(30):
+        create_notification(is_print=is_print)
+        create_ticket(is_print=is_print)
+    for _ in range(50):
+        create_appointment(is_print=is_print)
+        create_appointment_patient_doctor_relation(is_print=is_print)
+    for _ in range(10):
+        create_doctor_nurse_relation(is_print=is_print)
+        create_notification_patient_relation(is_print=is_print)
+        create_patient_complain_relation(is_print=is_print)
+        create_patient_invoice_staff_relation(is_print=is_print)
+        create_patient_ticket_relation(is_print=is_print)
+    for _ in range(20):
+        create_notification_staff_relation(is_print=is_print)
+        create_staff_ticket_relation(is_print=is_print)
 
-    is_print = True
-    select_1.populate(is_print=is_print)
-    select_2.populate(is_print=is_print)
-    select_3.populate(is_print=is_print)
-    select_4.populate(is_print=is_print)
-    select_5.populate(is_print=is_print)
+    # is_print = True
+    # select_1.populate(is_print=is_print)
+    # select_2.populate(is_print=is_print)
+    # select_3.populate(is_print=is_print)
+    # select_4.populate(is_print=is_print)
+    # select_5.populate(is_print=is_print)
 
 
 def main():
