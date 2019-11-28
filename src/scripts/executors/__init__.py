@@ -2,9 +2,14 @@ from .base import BaseExecutor
 from .create_schema import CreateSchemaExecutor
 from .generate import GenerateExecutor
 from .select_1 import Select1Executor
+from .select_1_generation import Select1GenerationExecutor
 from .select_2 import Select2Executor
+from .select_2_generation import Select1GenerationExecutor
 from .select_3_1 import Select31Executor
 from .select_3_2 import Select32Executor
+from .select_3_generation import Select1GenerationExecutor
 from .select_4 import Select4Executor
+from .select_4_generation import Select1GenerationExecutor
 from .select_5 import Select5Executor
+from .select_5_generation import Select1GenerationExecutor
 from .drop_and_create import DropAndCreate
