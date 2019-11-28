@@ -2,6 +2,7 @@ import pathlib
 from abc import ABC, abstractmethod
 
 from src.utils.database import Database
+import config
 
 
 class BaseExecutor(ABC):
@@ -25,7 +26,7 @@ class BaseExecutor(ABC):
                 if options:
                     sql_query = sql_query.format(*options)
             db.cursor.execute(sql_query)
-            if kwargs.get('fetch_results', False):
+            if kwargs.get("fetch_results", False):
                 results = db.cursor.fetchall()
                 return results
             return []
@@ -39,4 +40,5 @@ class BaseExecutor(ABC):
     @classmethod
     def get_subclass(cls, index: str):
         import src.scripts.executors
+
         return cls._subclasses.get(index)
