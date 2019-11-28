@@ -55,7 +55,7 @@ def main():
         column=0, row=7, pady=10
     )
 
-    ttk.Button(mainframe, text="Drop database", command=lambda: fetch_by_index("drop_and_create")).grid(
+    ttk.Button(mainframe, text="Drop database", command=lambda: status_checker(fetch_by_index("drop_and_create"))).grid(
         column=1, row=1, pady=10
     )
     ttk.Button(mainframe, text="SELECT 1 GENERATE", command=lambda: data_list.render(fetch_by_index("td_1"))).grid(
