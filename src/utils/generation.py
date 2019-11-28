@@ -4,7 +4,8 @@ from typing import Dict, Optional, Tuple, Union
 
 from mimesis import Datetime, Generic, Person, Text
 
-from src.utils.database import Database, db_name
+from src import config
+from src.utils.database import Database
 
 
 p = Person("en")
@@ -14,9 +15,6 @@ d = Datetime()
 
 
 db = Database()
-db.open(
-    dbname=db_name, user="postgres", password="", host="localhost",
-)
 
 
 def get_text(length: int = 25) -> str:

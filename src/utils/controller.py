@@ -6,4 +6,4 @@ def fetch_by_index(index):
 
 
 if __name__ == '__main__':
-    print(fetch_by_index('1'))
+    print(fetch_by_index('drop_and_create'))

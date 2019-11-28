@@ -1,6 +1,6 @@
 import psycopg2
 
-db_name = "hospital_management_system"
+from src import config
 
 
 class Database:
@@ -24,7 +24,12 @@ class Database:
     def __exit__(self, exc_type, exc_value, traceback):
         self.close()
 
+    def _check_if_opened(self):
+        if not self.conn or self.cursor:
+            self.open(config.db_name, config.user, config.password, config.host)
+
     def get(self, table, columns, limit=None):
+        self._check_if_opened()
         query = "SELECT {0} from {1};".format(columns, table)
         self.cursor.execute(query)
         rows = self.cursor.fetchall()
@@ -34,6 +39,8 @@ class Database:
         """
         :return: pk of just inserted row
         """
+        self._check_if_opened()
+
         query = "INSERT INTO {0} ({1}) VALUES ({2}) RETURNING {3};".format(table, columns, data, pk)
         self.cursor.execute(query)
         self.conn.commit()
@@ -44,6 +51,8 @@ class Database:
         return id_of_new_row
 
     def query(self, sql):
+        self._check_if_opened()
+
         self.cursor.execute(sql)
         rows = self.cursor.fetchall()
         return rows
@@ -55,16 +64,20 @@ def drop_and_init():
 
 
 def drop_database():
-    with psycopg2.connect(database="postgres", user="postgres", password="", host="localhost") as conn:
+    with psycopg2.connect(database='postgres', user=config.user, password=config.password, host=config.host) as conn:
         with conn.cursor() as cur:
             conn.autocommit = True
-            cur.execute(f"DROP DATABASE IF EXISTS {db_name};")
+            cur.execute(f"DROP DATABASE IF EXISTS {config.db_name};")
 
 
 def init_database():
-    with psycopg2.connect(database="postgres", user="postgres", password="", host="localhost") as conn:
+    with psycopg2.connect(database='postgres', user=config.user, password=config.password, host=config.host) as conn:
         with conn.cursor() as cur:
             conn.autocommit = True
-            cur.execute(f"CREATE DATABASE {db_name};")
+            cur.execute(f"CREATE DATABASE {config.db_name};")
             from scripts.executors import CreateSchemaExecutor
             CreateSchemaExecutor().fetch(fetch_results=False)
+
+
+if __name__ == '__main__':
+    drop_database()

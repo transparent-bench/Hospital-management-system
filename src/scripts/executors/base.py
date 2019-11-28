@@ -1,6 +1,7 @@
 import pathlib
 from abc import ABC, abstractmethod
 
+from src import config
 from src.utils.database import Database
 
 
@@ -18,14 +19,14 @@ class BaseExecutor(ABC):
     def fetch(self, *options, **kwargs):
         with Database() as db:
             db.open(
-                dbname="hospital_management_system", user="postgres", password="", host="localhost",
+                dbname=config.db_name, user=config.user, password=config.password, host=config.host
             )
             with open(self.file_name, "r") as file:
                 sql_query = file.read()
                 if options:
                     sql_query = sql_query.format(*options)
             db.cursor.execute(sql_query)
-            if kwargs.get('fetch_results', False):
+            if kwargs.get("fetch_results", False):
                 results = db.cursor.fetchall()
                 return results
             return []
@@ -39,4 +40,5 @@ class BaseExecutor(ABC):
     @classmethod
     def get_subclass(cls, index: str):
         import src.scripts.executors
+
         return cls._subclasses.get(index)
