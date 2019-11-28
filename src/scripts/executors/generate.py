@@ -3,7 +3,7 @@ from src.utils.generation import create_population
 
 
 class GenerateExecutor(BaseExecutor):
-    index = 'generate'
+    index = "generate"
     file_name = None
 
     def fetch(self, *options, **kwargs):

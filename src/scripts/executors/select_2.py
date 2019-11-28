@@ -2,19 +2,21 @@ from pathlib import Path
 
 from src.scripts.executors.base import BaseExecutor
 
-TIMESLOTS = (('10:00', '11:00'),
-             ('11:00', '12:00'),
-             ('12:00', '13:00'),
-             ('13:00', '14:00'),
-             ('14:00', '15:00'),
-             ('15:00', '16:00'),
-             ('16:00', '17:00'))
+TIMESLOTS = (
+    ("10:00", "11:00"),
+    ("11:00", "12:00"),
+    ("12:00", "13:00"),
+    ("13:00", "14:00"),
+    ("14:00", "15:00"),
+    ("15:00", "16:00"),
+    ("16:00", "17:00"),
+)
 
 
 class Select2Executor(BaseExecutor):
     file_name = Path(__file__).parent.parent / "select_2.sql"
 
-    index = '2'
+    index = "2"
 
     def fetch(self, *options, **kwargs) -> list:
         results = []
@@ -28,8 +30,11 @@ class Select2Executor(BaseExecutor):
                     appointments[str(staff_id)] = {time_from: n_app}
 
         for doctor_id, app_data in appointments.items():
-            data_for_current_doctor = [int(doctor_id), ]
+            data_for_current_doctor = [
+                int(doctor_id),
+            ]
             import operator
+
             timeslot_starts = list(map(operator.itemgetter(0), TIMESLOTS))
             for start in timeslot_starts:
                 # add total number of appointments
@@ -43,5 +48,5 @@ class Select2Executor(BaseExecutor):
         return results
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(Select2Executor().fetch())

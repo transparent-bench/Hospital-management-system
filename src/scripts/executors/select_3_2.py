@@ -7,7 +7,7 @@ from src.scripts.executors.base import BaseExecutor
 class Select32Executor(BaseExecutor):
     file_name = Path(__file__).parent.parent / "select_3_2.sql"
 
-    index = '3-2'
+    index = "3-2"
 
     def fetch(self, *options, **kwargs):
         results: list = super().fetch(*options, **kwargs)

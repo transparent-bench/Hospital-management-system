@@ -300,7 +300,10 @@ def create_patient_complain_relation(is_print: bool = False) -> dict:
     complain = create_complain(is_print=is_print)
     relation = {"patient_id": patient["id"], "complain_id": complain["id"]}
     relation["id"] = db.write(
-        "patient_complain_relation", ", ".join(relation.keys()), "{}, {}".format(*relation.values()), is_print=is_print,
+        "patient_complain_relation",
+        ", ".join(relation.keys()),
+        "{}, {}".format(*relation.values()),
+        is_print=is_print,
     )
 
     return relation
@@ -406,6 +409,7 @@ def create_population(is_print: bool = True):
     import src.scripts.test_data.select_3 as select_3
     import src.scripts.test_data.select_4 as select_4
     import src.scripts.test_data.select_5 as select_5
+
     db._check_if_opened()
     for _ in range(70):
         create_auth(is_print=is_print)
