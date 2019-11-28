@@ -7,7 +7,7 @@ from src.utils.generation import (
 )
 
 
-def populate_positive_testing():
+def populate():
     is_print = True
     patient = create_patient(is_print=is_print)
     base_datetime = datetime.today()
