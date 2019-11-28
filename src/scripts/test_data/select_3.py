@@ -27,7 +27,7 @@ def populate(is_print=False):
 
 
 def main():
-    populate_positive_testing()
+    populate(is_print=True)
 
 
 if __name__ == "__main__":

@@ -23,5 +23,9 @@ def populate(is_print=False):
     print(f"Patient={patient}")
 
 
+def main():
+    populate(is_print=True)
+
+
 if __name__ == "__main__":
-    populate()
+    main()
