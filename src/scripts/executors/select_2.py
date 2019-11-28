@@ -38,7 +38,6 @@ class Select2Executor(BaseExecutor):
                 # add average number of appointments
                 data_for_current_doctor.append(app_data.get(start, 0) / 50)
 
-
             results.append(tuple(data_for_current_doctor))
 
         return results

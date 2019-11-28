@@ -11,7 +11,7 @@ class Select1Executor(BaseExecutor):
     def fetch(self, *options, **kwargs):
         if not options:
             raise RuntimeError("Provide patient's phone number")
-        return super().fetch(*options)
+        return super().fetch(*options, **kwargs)
 
 
 if __name__ == "__main__":
