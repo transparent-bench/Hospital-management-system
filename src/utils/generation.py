@@ -15,9 +15,6 @@ d = Datetime()
 
 
 db = Database()
-db.open(
-    dbname=config.db_name, user=config.user, password=config.password, host=config.host,
-)
 
 
 def get_text(length: int = 25) -> str:

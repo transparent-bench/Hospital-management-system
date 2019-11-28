@@ -23,7 +23,12 @@ class Database:
     def __exit__(self, exc_type, exc_value, traceback):
         self.close()
 
+    def _check_if_opened(self):
+        if not self.conn or self.cursor:
+            self.open(config.db_name, config.user, config.password, config.host)
+
     def get(self, table, columns, limit=None):
+        self._check_if_opened()
         query = "SELECT {0} from {1};".format(columns, table)
         self.cursor.execute(query)
         rows = self.cursor.fetchall()
@@ -33,6 +38,8 @@ class Database:
         """
         :return: pk of just inserted row
         """
+        self._check_if_opened()
+
         query = "INSERT INTO {0} ({1}) VALUES ({2}) RETURNING {3};".format(table, columns, data, pk)
         self.cursor.execute(query)
         self.conn.commit()
@@ -43,6 +50,8 @@ class Database:
         return id_of_new_row
 
     def query(self, sql):
+        self._check_if_opened()
+
         self.cursor.execute(sql)
         rows = self.cursor.fetchall()
         return rows
