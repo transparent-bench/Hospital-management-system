@@ -431,6 +431,8 @@ def create_population(is_print: bool = True):
     # for _ in range(20):
     #     create_notification_staff_relation(is_print=is_print)
     #     create_staff_ticket_relation(is_print=is_print)
+    db._check_if_opened()
+
     select_1.populate()
     select_2.populate()
     select_3.populate()
