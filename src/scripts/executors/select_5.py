@@ -18,6 +18,7 @@ YEARS = (
 
 class Select5Executor(BaseExecutor):
     file_name = "../select_5.sql"
+    index = '5'
 
     def fetch(self) -> list:
         id_sums = {}

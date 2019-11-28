@@ -9,8 +9,9 @@ TIMESLOTS = (('10:00', '11:00'),
              ('16:00', '17:00'))
 
 
-class Select21Executor(BaseExecutor):
+class Select2Executor(BaseExecutor):
     file_name = '../select_2.sql'
+    index = '2'
 
     def fetch(self) -> list:
         results = []
@@ -41,4 +42,4 @@ class Select21Executor(BaseExecutor):
 
 
 if __name__ == '__main__':
-    print(Select21Executor().fetch())
+    print(Select2Executor().fetch())

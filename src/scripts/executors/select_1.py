@@ -3,6 +3,7 @@ from src.scripts.executors.base import BaseExecutor
 
 class Select1Executor(BaseExecutor):
     file_name = "../select_1.sql"
+    index = '1'
 
     def fetch(self, *options):
         if not options:
