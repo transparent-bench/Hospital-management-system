@@ -4,7 +4,7 @@ from typing import Dict, Optional, Tuple, Union
 
 from mimesis import Datetime, Generic, Person, Text
 
-from src.utils.database import Database
+from src.utils.database import Database, db_name
 
 p = Person("en")
 g = Generic("en")
@@ -14,7 +14,7 @@ d = Datetime()
 
 db = Database()
 db.open(
-    dbname="hospital_management_system", user="alina", password="08052400", host="localhost",
+    dbname=db_name, user="postgres", password="", host="localhost",
 )
 
 

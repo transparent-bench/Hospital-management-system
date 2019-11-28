@@ -1,5 +1,7 @@
 import psycopg2
 
+db_name = "hospital_management_system"
+
 
 class Database:
     def __init__(self):
@@ -45,3 +47,23 @@ class Database:
         self.cursor.execute(sql)
         rows = self.cursor.fetchall()
         return rows
+
+
+def drop_and_init():
+    drop_database()
+    init_database()
+
+
+def drop_database():
+    with psycopg2.connect(database="postgres", user="postgres", password="", host="localhost") as conn:
+        with conn.cursor() as cur:
+            conn.autocommit = True
+            cur.execute(f"DROP DATABASE IF EXISTS {db_name};")
+
+
+def init_database():
+    with psycopg2.connect(database="postgres", user="postgres", password="", host="localhost") as conn:
+        with conn.cursor() as cur:
+            cur.execute(f"CREATE DATABASE {db_name};")
+            from scripts.executors import CreateSchemaExecutor
+            CreateSchemaExecutor().fetch(fetch_results=False)
