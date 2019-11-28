@@ -14,7 +14,7 @@ class BaseExecutor(ABC):
     def index(self) -> str:
         raise NotImplementedError
 
-    def fetch(self, *options):
+    def fetch(self, fetch_results=True, *options):
         with Database() as db:
             db.open(
                 dbname="hospital_management_system", user="postgres", password="", host="localhost",
@@ -24,8 +24,10 @@ class BaseExecutor(ABC):
                 if options:
                     sql_query = sql_query.format(*options)
             db.cursor.execute(sql_query)
-            results = db.cursor.fetchall()
-            return results
+            if fetch_results:
+                results = db.cursor.fetchall()
+                return results
+            return []
 
     _subclasses = dict()
 
