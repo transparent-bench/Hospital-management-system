@@ -7,4 +7,6 @@ class DropAndCreate(BaseExecutor):
     index = "drop_and_create"
 
     def fetch(self, *options, **kwargs):
-        return drop_and_create()
+        is_done = drop_and_create()
+        print(is_done)
+        return is_done
