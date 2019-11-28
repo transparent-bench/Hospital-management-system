@@ -37,8 +37,7 @@ def get_datetime(start_hour: int = 9, end_hour: int = 17, start_year: int = 2000
 
 
 def get_login_auth():
-    db.cursor.execute("SELECT login from auth;")
-    all_known_logins = db.cursor.fetchall()
+    all_known_logins = db.query("SELECT login from auth;")
     import operator
 
     all_known_logins = set(map(operator.itemgetter(0), all_known_logins))
