@@ -75,7 +75,7 @@ def init_database():
         with conn.cursor() as cur:
             conn.autocommit = True
             cur.execute(f"CREATE DATABASE {config.db_name};")
-            from scripts.executors import CreateSchemaExecutor
+            from src.scripts.executors import CreateSchemaExecutor
             CreateSchemaExecutor().fetch(fetch_results=False)
 
 
