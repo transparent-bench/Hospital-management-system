@@ -1,4 +1,5 @@
 import operator
+from pathlib import Path
 
 from src.scripts.executors.base import BaseExecutor
 
@@ -17,14 +18,15 @@ YEARS = (
 
 
 class Select5Executor(BaseExecutor):
-    file_name = "../select_5.sql"
+    file_name = Path(__file__).parent.parent / "select_5.sql"
+
     index = '5'
 
-    def fetch(self) -> list:
+    def fetch(self, *options, **kwargs) -> list:
         id_sums = {}
         result: list = []
         for time_from, time_until in YEARS:
-            year_results = super().fetch(time_from, time_until)
+            year_results = super().fetch(time_from, time_until, *options, **kwargs)
             for d_id, _, _, appointments in year_results:
                 if time_from == "10":
                     id_sums[str(d_id)] = appointments

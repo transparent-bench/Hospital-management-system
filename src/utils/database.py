@@ -64,6 +64,7 @@ def drop_database():
 def init_database():
     with psycopg2.connect(database="postgres", user="postgres", password="", host="localhost") as conn:
         with conn.cursor() as cur:
+            conn.autocommit = True
             cur.execute(f"CREATE DATABASE {db_name};")
             from scripts.executors import CreateSchemaExecutor
             CreateSchemaExecutor().fetch(fetch_results=False)

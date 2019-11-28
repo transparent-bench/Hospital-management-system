@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+import pathlib
 from abc import ABC, abstractmethod
 
 from src.utils.database import Database
@@ -6,7 +9,7 @@ from src.utils.database import Database
 class BaseExecutor(ABC):
     @property
     @abstractmethod
-    def file_name(self) -> str:
+    def file_name(self) -> pathlib.Path:
         raise NotImplementedError
 
     @property
@@ -14,7 +17,7 @@ class BaseExecutor(ABC):
     def index(self) -> str:
         raise NotImplementedError
 
-    def fetch(self, fetch_results=True, *options):
+    def fetch(self, *options, **kwargs):
         with Database() as db:
             db.open(
                 dbname="hospital_management_system", user="postgres", password="", host="localhost",
@@ -24,7 +27,7 @@ class BaseExecutor(ABC):
                 if options:
                     sql_query = sql_query.format(*options)
             db.cursor.execute(sql_query)
-            if fetch_results:
+            if kwargs.get('fetch_results', False):
                 results = db.cursor.fetchall()
                 return results
             return []
@@ -36,6 +39,6 @@ class BaseExecutor(ABC):
         cls._subclasses[cls.index] = cls
 
     @classmethod
-    def get_subclass(cls, index: str):
+    def get_subclass(cls, index: str) -> BaseExecutor:
         import src.scripts.executors
         return cls._subclasses.get(index)

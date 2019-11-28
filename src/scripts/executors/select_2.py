@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from src.scripts.executors.base import BaseExecutor
 
 TIMESLOTS = (('10:00', '11:00'),
@@ -10,14 +12,15 @@ TIMESLOTS = (('10:00', '11:00'),
 
 
 class Select2Executor(BaseExecutor):
-    file_name = '../select_2.sql'
+    file_name = Path(__file__).parent.parent / "select_2.sql"
+
     index = '2'
 
-    def fetch(self) -> list:
+    def fetch(self, *options, **kwargs) -> list:
         results = []
         appointments = {}
         for time_from, time_until in TIMESLOTS:
-            data = super().fetch(time_from, time_until)
+            data = super().fetch(time_from, time_until, *options, **kwargs)
             for staff_id, n_app in data:
                 if staff_id in map(int, appointments.keys()):
                     appointments[str(staff_id)][time_from] = n_app

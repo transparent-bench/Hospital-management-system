@@ -1,14 +1,16 @@
 import operator
+from pathlib import Path
 
 from src.scripts.executors.base import BaseExecutor
 
 
 class Select32Executor(BaseExecutor):
-    file_name = "../select_3_2.sql"
+    file_name = Path(__file__).parent.parent / "select_3_2.sql"
+
     index = '3-2'
 
-    def fetch(self):
-        results: list = super().fetch()
+    def fetch(self, *options, **kwargs):
+        results: list = super().fetch(*options, **kwargs)
         all_ids = {p_id for _, _, p_id in results}
         id_to_is_good = dict(zip(all_ids, [True] * len(all_ids)))
 
