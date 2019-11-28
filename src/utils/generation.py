@@ -6,6 +6,7 @@ from mimesis import Datetime, Generic, Person, Text
 
 from src.utils.database import Database, db_name
 
+
 p = Person("en")
 g = Generic("en")
 t = Text("en")
@@ -399,34 +400,44 @@ def create_patient_invoice_staff_relation(is_print: bool = False) -> dict:
 
 
 def create_population(is_print: bool = True):
-    for _ in range(70):
-        create_auth(is_print=is_print)
-    for _ in range(10):
-        create_doctor(is_print=is_print)
-        create_nurse(is_print=is_print)
-        create_staff_with_random_position(is_print=is_print)
-        create_invoice(is_print=is_print)
-        create_complain(is_print=is_print)
-        create_camera(is_print=is_print)
-    for _ in range(40):
-        create_passport(is_print=is_print)
-        create_patient(is_print=is_print)
-        create_invoice(is_print=is_print)
-    for _ in range(30):
-        create_notification(is_print=is_print)
-        create_ticket(is_print=is_print)
-    for _ in range(50):
-        create_appointment(is_print=is_print)
-        create_appointment_patient_doctor_relation(is_print=is_print)
-    for _ in range(10):
-        create_doctor_nurse_relation(is_print=is_print)
-        create_notification_patient_relation(is_print=is_print)
-        create_patient_complain_relation(is_print=is_print)
-        create_patient_invoice_staff_relation(is_print=is_print)
-        create_patient_ticket_relation(is_print=is_print)
-    for _ in range(20):
-        create_notification_staff_relation(is_print=is_print)
-        create_staff_ticket_relation(is_print=is_print)
+    import src.scripts.test_data.select_1 as select_1
+    import src.scripts.test_data.select_2 as select_2
+    import src.scripts.test_data.select_3 as select_3
+    import src.scripts.test_data.select_4 as select_4
+    import src.scripts.test_data.select_5 as select_5
+    # for _ in range(70):
+    #     create_auth(is_print=is_print)
+    # for _ in range(10):
+    #     create_doctor(is_print=is_print)
+    #     create_nurse(is_print=is_print)
+    #     create_staff_with_random_position(is_print=is_print)
+    #     create_invoice(is_print=is_print)
+    #     create_complain(is_print=is_print)
+    #     create_camera(is_print=is_print)
+    # for _ in range(40):
+    #     create_passport(is_print=is_print)
+    #     create_patient(is_print=is_print)
+    #     create_invoice(is_print=is_print)
+    # for _ in range(30):
+    #     create_notification(is_print=is_print)
+    #     create_ticket(is_print=is_print)
+    # for _ in range(50):
+    #     create_appointment(is_print=is_print)
+    #     create_appointment_patient_doctor_relation(is_print=is_print)
+    # for _ in range(10):
+    #     create_doctor_nurse_relation(is_print=is_print)
+    #     create_notification_patient_relation(is_print=is_print)
+    #     create_patient_complain_relation(is_print=is_print)
+    #     create_patient_invoice_staff_relation(is_print=is_print)
+    #     create_patient_ticket_relation(is_print=is_print)
+    # for _ in range(20):
+    #     create_notification_staff_relation(is_print=is_print)
+    #     create_staff_ticket_relation(is_print=is_print)
+    select_1.populate()
+    select_2.populate()
+    select_3.populate()
+    select_4.populate()
+    select_5.populate()
 
 
 def main():
