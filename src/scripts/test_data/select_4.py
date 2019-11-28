@@ -12,6 +12,7 @@ def populate(is_print=False):
     for p in patients:
         for _ in range(100):
             create_appointment_patient_doctor_relation(patient=p, start_year=2019, end_year=2019, is_print=is_print)
+    return True
 
 
 def main():

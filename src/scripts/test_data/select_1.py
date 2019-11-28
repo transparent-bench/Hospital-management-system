@@ -21,6 +21,7 @@ def populate(is_print=False):
         )
 
     print(f"Patient={patient}")
+    return [patient]
 
 
 def main():

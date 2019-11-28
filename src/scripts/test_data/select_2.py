@@ -6,11 +6,12 @@ from src.utils.generation import (
 
 def populate(is_print=False):
     doctors = []
-    for _ in range(30):
+    for _ in range(10):
         doctors.append(create_doctor(is_print=is_print))
     for d in doctors:
         for _ in range(100):
             create_appointment_patient_doctor_relation(doctor=d, start_year=2017, is_print=is_print)
+    return True
 
 
 def main():
