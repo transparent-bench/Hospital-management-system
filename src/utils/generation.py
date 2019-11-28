@@ -60,9 +60,15 @@ def create_auth(is_print: bool = False) -> Dict[str, str]:
 
 
 def create_passport(is_print: bool = False,) -> Dict[str, Union[str, int, datetime]]:
+    def get_non_zero(mask):
+        r = g.random.custom_code(mask=mask)
+        while int(r) == '0':
+            r = g.random.custom_code(mask=mask)
+        return r
+
     passport = {
-        "seria": g.random.custom_code(mask="####"),
-        "number": g.random.custom_code(mask="######"),
+        "seria": get_non_zero(mask="####"),
+        "number": get_non_zero(mask="######"),
         "birth": d.date(start=1950),
         "f_name": get_name(),
         "l_name": get_surname(),
