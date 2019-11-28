@@ -14,7 +14,7 @@ d = Datetime()
 
 db = Database()
 db.open(
-    dbname="hospital_management_system", user="postgres", password="", host="localhost",
+    dbname="hospital_management_system", user="alina", password="08052400", host="localhost",
 )
 
 
