@@ -11,7 +11,8 @@ class InteractiveList:
         self._master = master
         self._list = label
 
-    def render(self, data, row=0):
+    def render(self, data):
+        print(data)
         if isinstance(self._list, Listbox):
             self._list.destroy()
 
@@ -20,5 +21,5 @@ class InteractiveList:
         for i in data:
             self._list.insert(END, pprint.pformat(i))
 
-        self._list.grid(column=1, row=row, columnspan=10)
-        self._list.config(width=100)
+        self._list.grid(column=0, row=0, pady=10, padx=10)
+        self._list.config(width=50, height=20)
