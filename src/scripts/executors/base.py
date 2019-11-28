@@ -20,7 +20,7 @@ class BaseExecutor(ABC):
     def fetch(self, *options, **kwargs):
         with Database() as db:
             db.open(
-                dbname="hospital_management_system", user="alina", password="08052400", host="localhost",
+                dbname="hospital_management_system", user="postgres", password="", host="localhost",
             )
             with open(self.file_name, "r") as file:
                 sql_query = file.read()
