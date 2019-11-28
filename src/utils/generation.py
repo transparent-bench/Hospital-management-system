@@ -107,7 +107,6 @@ def create_staff(
     if isinstance(position, StaffPositionEnum):
         position = position.name
 
-    # todo: make return id as in create_auth
     gender = g.random.choice(["male", "female"])
 
     staff = {

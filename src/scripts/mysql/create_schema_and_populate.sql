@@ -1,3 +1,8 @@
+-- dump file for MySQL 5.7
+DROP DATABASE IF EXISTS hospital;
+CREATE DATABASE hospital;
+USE hospital;
+
 -- auth
 
 CREATE TABLE IF NOT EXISTS auth(

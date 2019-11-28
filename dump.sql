@@ -1,3 +1,6 @@
+-- dump file for Postgres 12
+
+
 DROP DATABASE IF EXISTS hospital;
 CREATE DATABASE hospital;
 
