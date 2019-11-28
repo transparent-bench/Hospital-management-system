@@ -15,8 +15,8 @@ def populate(is_print=False):
 
 
 def main():
-    populate()
+    populate(is_print=True)
 
 
 if __name__ == "__main__":
-    populate()
+    main()

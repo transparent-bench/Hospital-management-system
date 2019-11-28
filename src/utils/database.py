@@ -25,7 +25,7 @@ class Database:
         self.close()
 
     def _check_if_opened(self):
-        if not self.conn or self.cursor:
+        if not self.conn or not self.cursor:
             self.open(config.db_name, config.user, config.password, config.host)
 
     def get(self, table, columns, limit=None):
@@ -58,9 +58,10 @@ class Database:
         return rows
 
 
-def drop_and_init():
+def drop_and_create():
     drop_database()
     init_database()
+    return True
 
 
 def drop_database():
@@ -75,7 +76,7 @@ def init_database():
         with conn.cursor() as cur:
             conn.autocommit = True
             cur.execute(f"CREATE DATABASE {config.db_name};")
-            from scripts.executors import CreateSchemaExecutor
+            from src.scripts.executors import CreateSchemaExecutor
             CreateSchemaExecutor().fetch(fetch_results=False)
 
 
