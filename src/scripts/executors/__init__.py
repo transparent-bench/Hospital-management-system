@@ -1,5 +1,6 @@
 from .base import BaseExecutor
 from .create_schema import CreateSchemaExecutor
+from .generate import GenerateExecutor
 from .select_1 import Select1Executor
 from .select_2 import Select2Executor
 from .select_3_1 import Select31Executor
