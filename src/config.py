@@ -1,4 +1,4 @@
-db_name = "hospital_management_system"
+db_name = "hospital"
 host = 'localhost'
 user = 'postgres'
 password = ''

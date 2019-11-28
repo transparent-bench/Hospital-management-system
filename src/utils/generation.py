@@ -4,7 +4,6 @@ from typing import Dict, Optional, Tuple, Union
 
 from mimesis import Datetime, Generic, Person, Text
 
-from src import config
 from src.utils.database import Database
 
 
